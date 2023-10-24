@@ -1,9 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tomcat 9.0.65" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="false">
+    <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
-      <artifact name="GestionTempsTravail:war exploded">
+      <artifact name="GestionTempsTravail:war">
         <settings>
-          <option name="CONTEXT_PATH" value="/GestionTempsTravail_war_exploded" />
+          <option name="CONTEXT_PATH" value="/GestionTempsTravail_war" />
         </settings>
       </artifact>
     </deployment>
@@ -82,6 +83,7 @@
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
         <artifact name="GestionTempsTravail:war exploded" />
+        <artifact name="GestionTempsTravail:war" />
       </option>
     </method>
   </configuration>

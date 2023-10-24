@@ -1,4 +1,4 @@
-package gi3.ensate.gestiontempstravail;
+package Servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "TestServlet", value = "/testservlet")
+@WebServlet(name = "TestServlet", value = "/test")
 public class TestServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -22,16 +22,6 @@ public class TestServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/test.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
-
-
-
-
-
-
-
-    }
 
 }
