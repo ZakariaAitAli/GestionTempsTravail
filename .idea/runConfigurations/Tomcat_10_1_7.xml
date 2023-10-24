@@ -1,6 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Tomcat 9.0.65" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="false">
-    <option name="UPDATING_POLICY" value="restart-server" />
+  <configuration default="false" name="Tomcat 10.1.7" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="17">
+    <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+    <option name="HOT_SWAP_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
+    <option name="UPDATING_POLICY" value="hot-swap-classes" />
     <deployment>
       <artifact name="GestionTempsTravail:war">
         <settings>
@@ -10,6 +12,8 @@
     </deployment>
     <server-settings>
       <option name="BASE_DIRECTORY_NAME" value="c25e3f7c-4564-4abe-8cb5-00e46d9477e8" />
+      <option name="HTTP_PORT" value="8088" />
+      <option name="JNDI_PORT" value="1098" />
     </server-settings>
     <predefined_log_file enabled="true" id="Tomcat" />
     <predefined_log_file enabled="true" id="Tomcat Catalina" />

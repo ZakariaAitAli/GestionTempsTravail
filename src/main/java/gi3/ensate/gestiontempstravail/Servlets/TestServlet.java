@@ -1,4 +1,4 @@
-package Servlets;
+package gi3.ensate.gestiontempstravail.Servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
