@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Java EE Docker Image CI
 
 on:
   push:
@@ -14,5 +14,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '21'
+
+    - name: Build the Java EE application
+      run: ./mvnw clean package
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag gtt:$(date +%s)
+      run: docker build . --file Dockerfile --tag zakariaaitali/gtt:$(date +%s)
+
+    - name: Push to Docker Hub
+      run: docker push zakariaaitali/gtt:$(date +%s)
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
