@@ -20,6 +20,9 @@ jobs:
         distribution: 'adopt'
         java-version: '21'
 
+    - name: Make mvnw executable
+      run: chmod +x mvnw
+    
     - name: Build the Java EE application
       run: ./mvnw clean package
 
