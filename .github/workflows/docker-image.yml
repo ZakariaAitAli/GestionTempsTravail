@@ -33,7 +33,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secret.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        repository: ${{ github.repository }}/gtt
+        repository: ${{ github.repository }}
         tags: latest, ${{ github.run_number }}
     
     - name: Build and push Docker images
