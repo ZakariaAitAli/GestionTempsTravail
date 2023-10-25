@@ -1,0 +1,41 @@
+name: Java EE Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - name: Build the Java EE application
+        run: mvn clean package
+
+  publish-gh-package:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - name: Set up Maven
+        run: |
+          echo "Maven mirror configuration..."
+          mkdir -p $HOME/.m2
+          echo "<settings><mirrors><mirror><id>github</id><url>https://maven.pkg.github.com/ZakariaAitAli/*</url><mirrorOf>central</mirrorOf></mirror></mirrors></settings>" > $HOME/.m2/settings.xml
+      - name: Publish to GitHub Package Registry
+        run: mvn deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
