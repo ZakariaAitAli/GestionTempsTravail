@@ -26,15 +26,6 @@ jobs:
     
     - name: Build the Java EE application
       run: ./mvnw clean package
-
-    - name: Publish to Github Packeges
-    - uses: docker/build-push-action@v5.0.0
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secret.GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
-        repository: ${{ github.repository }}
-        tags: latest, ${{ github.run_number }}
     
     - name: Build and push Docker images
       uses: docker/build-push-action@v5.0.0
