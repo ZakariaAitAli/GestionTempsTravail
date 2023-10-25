@@ -27,7 +27,7 @@ jobs:
       run: ./mvnw clean package
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag zakariaaitali/gtt:$(date +%s)
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/gtt:$(date +%s)
 
     - name: Push to Docker Hub
       run: docker push zakariaaitali/gtt:$(date +%s)
