@@ -39,7 +39,13 @@ import java.util.concurrent.TimeUnit;
 
 public class ReportGenerator {
 
-
+    public static void main(String[] args) {
+        try {
+            ReportGenerator.generateReport();
+        } catch (MalformedURLException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static ArrayList<Employee> fetchData () {
         ArrayList<Employee> data =  new ArrayList<>()  ;
