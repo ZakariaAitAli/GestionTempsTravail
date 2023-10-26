@@ -34,6 +34,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Build with Maven
+      run: mvn clean package
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
