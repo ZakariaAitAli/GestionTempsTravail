@@ -1,5 +1,7 @@
 package Servlets;
 
+
+import Beans.ReportGenerator;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -16,6 +18,8 @@ public class ReportServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ReportGenerator.generateReport();
+        this.getServletContext().getRequestDispatcher("/JSP/test.jsp?success=1").forward(request, response);
 
     }
 }

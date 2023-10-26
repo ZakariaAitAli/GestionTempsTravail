@@ -1,5 +1,6 @@
 package DAO;
 
+
 import java.io.PrintWriter;
 import java.sql.*;
 
@@ -13,6 +14,22 @@ public class employeeService {
     public Connection driver() throws Exception {
         try{
             Class.forName("com.mysql.jdbc.Driver");
+
+   /* public ArrayList<Employee> GetEmployeeData() throws SQLException {
+        driver();
+        PreparedStatement preparedStatement = conn.prepareStatement("SELECT t.*, f_name, l_name,email FROM employees e INNER JOIN time t ON e.id_employee == t.id_employee  ");
+        ResultSet resultat = preparedStatement.executeQuery();
+        while (resultat.next()) {
+
+           String FullName = resultat.getString("f_name") +" " +resultat.getString("l_name");
+           String email = resultat.getString("email") ;
+
+
+
+        }
+
+    }*/
+
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt","root","");
         }catch(ClassNotFoundException ex ){
             throw new Exception("impossible de charger le driver");

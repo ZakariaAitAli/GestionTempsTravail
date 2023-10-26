@@ -127,7 +127,7 @@
     }
 
     body{
-        background-image:url("./images/image1.jpg");
+        background-image:url("resources/images/image1.jpg");
         font-size:large ;
         background-size: cover;
         font-family: 'Inter UI', sans-serif;
