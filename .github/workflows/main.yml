@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
-        java-version: '21'
+        java-version: '11'
 
     - name: Build with Maven
       run: mvn clean package
@@ -47,9 +47,8 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: Dockerfile
+        file: ./Dockerfile
         push: true
         tags: |
-          zakariaaitali/gestion_temps_travail:latest
-          zakariaaitali/gestion_temps_travail:${{ github.sha }}
-
+          $DOCKER_USERNAME/gestion_temps_travail:latest
+          $DOCKER_USERNAME/gestion_temps_travail:${{ github.sha }}
