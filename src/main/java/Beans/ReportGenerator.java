@@ -36,8 +36,6 @@ import java.util.Date;
 import java.util.List;
 
 import java.util.concurrent.TimeUnit;
-@Singleton
-@Startup
 
 public class ReportGenerator {
 
@@ -50,10 +48,10 @@ public class ReportGenerator {
 
     }
    // @Schedule(dayOfWeek = "3", hour = "19", minute = "55", second = "0", persistent = false)
-    public static void generateReport(Timer timer) throws MalformedURLException, FileNotFoundException {
+    public static void generateReport() throws MalformedURLException, FileNotFoundException {
 
         ArrayList<Employee> data = fetchData() ;
-        String path = "C:\\Users\\Simofatt\\Downloads\\D"  +".pdf";
+        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\resources\\Reports\\D"  +".pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         Document document = new Document(pdfDocument);

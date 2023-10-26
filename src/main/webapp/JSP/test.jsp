@@ -20,8 +20,14 @@
 
 
 
-<form method="post" action="Servlets.ReportServlet"><button type="submit" class="btn btn-primary mx-3">Generate report</button></form>
+<form method="post" action="Servlets.ReportServlet">
+    <button type="submit" class="btn btn-primary mx-3">Generate report</button>
+</form>
 
+
+
+
+<a href="PdfDownloadServlet">Download pfg</a>
 <br/>
 
 </body>

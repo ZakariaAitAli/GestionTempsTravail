@@ -18,7 +18,11 @@ public class ReportServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //ReportGenerator.generateReport();
+
+
+            ReportGenerator.generateReport();
+
+
         this.getServletContext().getRequestDispatcher("/JSP/test.jsp?success=1").forward(request, response);
     }
 }
