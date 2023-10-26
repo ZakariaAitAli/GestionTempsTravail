@@ -50,5 +50,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          $DOCKER_USERNAME/gestion_temps_travail:latest
-          $DOCKER_USERNAME/gestion_temps_travail:${{ github.sha }}
+          ${{ secrets.DOCKER_USERNAME }}/gestion_temps_travail:latest
+          ${{ secrets.DOCKER_USERNAME }}/gestion_temps_travail:${{ github.sha }}
