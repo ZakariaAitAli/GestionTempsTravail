@@ -47,17 +47,18 @@ public class ReportGenerator {
         }
     }
 
-    public static ArrayList<Employee> fetchData () {
-        ArrayList<Employee> data =  new ArrayList<>()  ;
-        data.add(new Employee("mohamed", "fatehi" , 45.0,45.0)  ) ;
-        return  data ;
+    public static ArrayList<Employee> fetchData() {
+        ArrayList<Employee> data = new ArrayList<>();
+        data.add(new Employee("mohamed", "fatehi", 45.0, 45.0));
+        return data;
 
     }
-   // @Schedule(dayOfWeek = "3", hour = "19", minute = "55", second = "0", persistent = false)
+
+    // @Schedule(dayOfWeek = "3", hour = "19", minute = "55", second = "0", persistent = false)
     public static void generateReport() throws MalformedURLException, FileNotFoundException {
 
-        ArrayList<Employee> data = fetchData() ;
-        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\resources\\Reports\\D"  +".pdf";
+        ArrayList<Employee> data = fetchData();
+        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\D" + ".pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         Document document = new Document(pdfDocument);
@@ -66,15 +67,15 @@ public class ReportGenerator {
 
         // Creating a table that contain 2 columns
         float two_col150 = 300f;
-        float columnWidth[] = { two_col150 };
+        float columnWidth[] = {two_col150};
 
 
         float x = pdfDocument.getDefaultPageSize().getWidth() / 2;
         float y = pdfDocument.getDefaultPageSize().getHeight() / 2;
 
 
-        float a =pdfDocument.getDefaultPageSize().getWidth()/2 ;
-        float b =pdfDocument.getDefaultPageSize().getHeight() /2;
+        float a = pdfDocument.getDefaultPageSize().getWidth() / 2;
+        float b = pdfDocument.getDefaultPageSize().getHeight() / 2;
 
 
         float z = pdfDocument.getDefaultPageSize().getWidth() / 2;
@@ -98,14 +99,14 @@ public class ReportGenerator {
         document.add(new Paragraph(
                 "\r\n" + "Le Directeur de l'Ecole Nationale des Sciences Appliquées atteste que :  " + "\r\n")
                 .setFontSize(10F));
-        document.add(new Paragraph( data.get(0).firstName+ "\r\n").setBold().setFontSize(10F));
+        document.add(new Paragraph(data.get(0).firstName + "\r\n").setBold().setFontSize(10F));
 
-        document.add(new Paragraph("Numéro de la carte d’identité nationale :   "  + "\r\n" + "\n"
-                + "Code national de l’étudiant :   "   + " \r\n" + "\n" + "N°etudiant :   " +
-                 "\r\n" + "\n" + "Né le :   "  + "\r\n" + "\n"
+        document.add(new Paragraph("Numéro de la carte d’identité nationale :   " + "\r\n" + "\n"
+                + "Code national de l’étudiant :   " + " \r\n" + "\n" + "N°etudiant :   " +
+                "\r\n" + "\n" + "Né le :   " + "\r\n" + "\n"
                 + "A été déclare admis au : "
                 + "au titre de l'année universitaire 2020/2021 \r\n \n \n\n\n").setFontSize(10F));
-        document.add(new Paragraph("Fait à TETOUAN, le " ).setPaddingLeft(300).setFontSize(10F));
+        document.add(new Paragraph("Fait à TETOUAN, le ").setPaddingLeft(300).setFontSize(10F));
 
 
         Table table5 = new Table(1);
@@ -120,5 +121,5 @@ public class ReportGenerator {
         document.close();
 
 
-
+    }
 }

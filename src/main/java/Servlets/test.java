@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class test extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       /this.getServletContext().getRequestDispatcher("/JSP/test.jsp").forward(request, response);
+       this.getServletContext().getRequestDispatcher("/JSP/test.jsp").forward(request, response);
     }
 
     @Override
