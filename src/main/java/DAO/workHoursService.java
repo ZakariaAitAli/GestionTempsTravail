@@ -11,7 +11,7 @@ public class workHoursService {
     public workHoursService() { }
     public void driver() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt", "root", "");
             System.out.println("Connexion reussite ");
         } catch (Exception e) {
