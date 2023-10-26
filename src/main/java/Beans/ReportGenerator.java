@@ -68,16 +68,13 @@ public class ReportGenerator {
         float two_col150 = 300f;
         float columnWidth[] = { two_col150 };
 
-    
 
         float x = pdfDocument.getDefaultPageSize().getWidth() / 2;
         float y = pdfDocument.getDefaultPageSize().getHeight() / 2;
 
 
-
         float a =pdfDocument.getDefaultPageSize().getWidth()/2 ;
         float b =pdfDocument.getDefaultPageSize().getHeight() /2;
-
 
 
         float z = pdfDocument.getDefaultPageSize().getWidth() / 2;
@@ -110,6 +107,7 @@ public class ReportGenerator {
                 + "au titre de l'année universitaire 2020/2021 \r\n \n \n\n\n").setFontSize(10F));
         document.add(new Paragraph("Fait à TETOUAN, le " ).setPaddingLeft(300).setFontSize(10F));
 
+
         Table table5 = new Table(1);
         table5.addCell(
                 new Cell()
@@ -120,12 +118,6 @@ public class ReportGenerator {
 
         // Closing the document
         document.close();
-
-
-        // Making sure the code got executed
-        System.out.println("hello");
-
-    }
 
 
 

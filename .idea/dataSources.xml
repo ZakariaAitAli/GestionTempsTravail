@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="gtt@localhost" uuid="c406323c-d2df-47fe-a67c-2e6dc9c21da9">
+    <data-source source="LOCAL" name="gtt@localhost" uuid="2f951505-6e9e-4a42-b031-48b93a909e56">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
+      <remarks>gtt</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/gtt</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

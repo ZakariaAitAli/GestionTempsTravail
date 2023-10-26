@@ -7,7 +7,6 @@
 <body>
 <h1><%= "Test!" %>
 </h1>
-
 <%
     String success =  (String)request.getParameter("success");
     if(success !=null ) {
@@ -28,6 +27,7 @@
 
 
 <a href="PdfDownloadServlet">Download pfg</a>
+
 <br/>
 
 </body>

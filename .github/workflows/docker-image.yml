@@ -1,0 +1,36 @@
+name: Java EE Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '21'
+
+    - name: Make mvnw executable
+      run: chmod +x mvnw
+    
+    - name: Build the Java EE application
+      run: ./mvnw clean package
+    
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v5.0.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: zakariaaitali/gestion_temps_travail
+        tags: latest, ${{ github.run_number }}
