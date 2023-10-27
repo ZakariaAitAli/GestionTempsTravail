@@ -5,15 +5,22 @@ import java.util.Date;
 public class EmployeeDTO {
 
 
-    public String fullName ;
+
     public Date startDate ;
     public Date endDate ;
+    public int pause ;
+    public double hoursWorkedAfterPause ;
 
 
-    public EmployeeDTO(String fullName, Date startDate, Date endDate) {
-        this.fullName = fullName;
-        this.startDate = startDate;
+    public EmployeeDTO( Date startDate, Date endDate,int pause, double hoursWorkedAfterPause) {
+
+       this.startDate = startDate;
         this.endDate = endDate;
+        this.pause = pause ;
+
+
+        this.hoursWorkedAfterPause = hoursWorkedAfterPause;
     }
+
 
 }
