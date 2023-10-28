@@ -12,11 +12,11 @@ public class EmployeeDTO {
     public double hoursWorkedAfterPause ;
 
 
-    public EmployeeDTO( Date startDate, Date endDate,int pause, double hoursWorkedAfterPause) {
+    public EmployeeDTO(  double hoursWorkedAfterPause) {
 
-       this.startDate = startDate;
+      /* this.startDate = startDate;
         this.endDate = endDate;
-        this.pause = pause ;
+        this.pause = pause ;*/
 
 
         this.hoursWorkedAfterPause = hoursWorkedAfterPause;

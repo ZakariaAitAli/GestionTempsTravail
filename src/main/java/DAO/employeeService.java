@@ -76,10 +76,12 @@ public class employeeService {
                 Time endTime = resultat.getTime("end_time");
                 int pause = PausesEnum.getHours(resultat.getInt("pause")) ;
                 long totalMillisecondsWorked = endTime.getTime() - startTime.getTime();
-                double totalHoursWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
-                double hoursWorkedAfterPause = totalHoursWorked - pause;
+                double totalMinutesWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
+                double MinutesWorkedAfterPause = totalMinutesWorked - pause;
+                double HoursWorkedAfterPause = (totalMinutesWorked - pause )*60 ;
+                double HoursSupp = (HoursWorkedAfterPause -7)>= 0 ? (HoursWorkedAfterPause -7) : 0 ;
 
-                data.add(new EmployeeDTO( startTime, endTime,pause ,hoursWorkedAfterPause));
+                data.add(new EmployeeDTO(HoursWorkedAfterPause));
             }
         return data;
     }
@@ -88,12 +90,14 @@ public class employeeService {
         conn  = driver();
         ArrayList<String> emails = new ArrayList<>() ;
 
-        PreparedStatement preparedStatement = conn.prepareStatement("Select email from employees ;");
+        PreparedStatement preparedStatement = conn.prepareStatement("Select email,l_name,f_name,id_employee from employees ;");
         ResultSet resultat = preparedStatement.executeQuery();
 
         while (resultat.next()) {
             String email = resultat.getString("email");
-            emails.add(email) ;
+            String FullName = resultat.getString("f_name") + " " + resultat.getString("l_name");
+            int idEmployee= resultat.getInt("id_employee") ;
+            emails.add(email+"/"+email+"/"+idEmployee) ;
         }
         return emails ;
      }
@@ -103,10 +107,10 @@ public class employeeService {
          ArrayList<String> emails = GetAllEmails() ;
 
          for (String item: emails) {
-            ArrayList<EmployeeDTO> EmployeData =  GetEmployeeData(item) ;
-            data.put(item ,EmployeData);
+             String email  = item.split("/")[0] ;
+             ArrayList<EmployeeDTO> EmployeData =  GetEmployeeData(email) ;
+             data.put(item ,EmployeData);
          }
-
          return  data ;
      }
 }
