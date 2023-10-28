@@ -1,4 +1,6 @@
 package Beans;
+import DAO.employeeService;
+import DTO.EmployeeDTO;
 import Models.Employee;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -33,6 +35,7 @@ import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.concurrent.TimeUnit;
@@ -42,22 +45,24 @@ public class ReportGenerator {
     public static void main(String[] args) {
         try {
             ReportGenerator.generateReport();
-        } catch (MalformedURLException | FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<Employee> fetchData() {
-        ArrayList<Employee> data = new ArrayList<>();
-        data.add(new Employee("mohamed", "fatehi", 45.0, 45.0));
+    public static HashMap<String , ArrayList<EmployeeDTO>> fetchData() throws Exception {
+
+        employeeService emp = new employeeService() ;
+        HashMap<String, ArrayList<EmployeeDTO>> data = emp.GetAll() ;
         return data;
 
     }
 
     // @Schedule(dayOfWeek = "3", hour = "19", minute = "55", second = "0", persistent = false)
-    public static void generateReport() throws MalformedURLException, FileNotFoundException {
+    public static void generateReport() throws Exception {
 
-        ArrayList<Employee> data = fetchData();
+        HashMap<String , ArrayList<EmployeeDTO>> data = fetchData();
+
         String path = "\\mnt\\c\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\D" + ".pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);

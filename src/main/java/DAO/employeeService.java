@@ -77,11 +77,11 @@ public class employeeService {
                 int pause = PausesEnum.getHours(resultat.getInt("pause")) ;
                 long totalMillisecondsWorked = endTime.getTime() - startTime.getTime();
                 double totalMinutesWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
-                double MinutesWorkedAfterPause = totalMinutesWorked - pause;
-                double HoursWorkedAfterPause = (totalMinutesWorked - pause )*60 ;
+              //  double MinutesWorkedAfterPause = totalMinutesWorked - pause;
+                double HoursWorkedAfterPause = (totalMinutesWorked - pause )/60 ;
                 double HoursSupp = (HoursWorkedAfterPause -7)>= 0 ? (HoursWorkedAfterPause -7) : 0 ;
 
-                data.add(new EmployeeDTO(HoursWorkedAfterPause));
+                data.add(new EmployeeDTO(HoursSupp,HoursWorkedAfterPause));
             }
         return data;
     }

@@ -4,22 +4,16 @@ import java.util.Date;
 
 public class EmployeeDTO {
 
-
-
-    public Date startDate ;
-    public Date endDate ;
-    public int pause ;
     public double hoursWorkedAfterPause ;
+    public double hoursSupp;
 
 
-    public EmployeeDTO(  double hoursWorkedAfterPause) {
-
-      /* this.startDate = startDate;
-        this.endDate = endDate;
-        this.pause = pause ;*/
+    public EmployeeDTO( double HoursSupp , double HoursWorkedAfterPause) {
 
 
-        this.hoursWorkedAfterPause = hoursWorkedAfterPause;
+       this.hoursSupp = HoursSupp;
+
+        this.hoursWorkedAfterPause = HoursWorkedAfterPause;
     }
 
 
