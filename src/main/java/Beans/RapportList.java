@@ -1,4 +1,7 @@
-package DAO;
+package Beans;
+
+import DAO.Rapport;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -6,33 +9,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-public class employeeList {
 
-    public List<Employee> getAllEmployees() {
-        List<Employee> employees = new ArrayList<>();
+public class RapportList {
+    public static List<Rapport> getRapportsByEmployeeId(int employeeId) {
+        List<Rapport> rapports = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            // Établir une connexion à la base de données (assurez-vous d'avoir les paramètres de connexion appropriés)
+
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt-2","root","");
 
-            // Requête SQL pour récupérer les employés
-            String sql = "SELECT * FROM employees";
+
+            String sql = "SELECT * FROM rapports WHERE id_employee = ?";
             stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, employeeId);
+
             rs = stmt.executeQuery();
 
-            // Parcourir les résultats et créer des objets Employee
             while (rs.next()) {
-                Employee employee = new Employee();
-                employee.setId_employee(rs.getInt("id_employee")); // Ajout de l'ID de l'employé
-                employee.setF_name(rs.getString("f_name"));
-                employee.setL_name(rs.getString("l_name"));
-                employee.setEmail(rs.getString("email"));
-                System.out.println("hello" + employee.getF_name());
-                employees.add(employee);
+                Rapport rapport = new Rapport();
+                rapport.setId_rapport(rs.getInt("id_rapport"));
+                rapport.setId_employee(rs.getInt("id_employee"));
+                rapport.setPath(rs.getString("path"));
+                rapport.setDate_generation(rs.getString("date_generation"));
+                rapport.setWorktime_total(rs.getInt("worktime_total"));
+                System.out.println("hello" + rapport.getPath());
+                rapports.add(rapport);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,7 +54,6 @@ public class employeeList {
             }
         }
 
-        return employees;
+        return rapports;
     }
-
 }

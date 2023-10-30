@@ -1,9 +1,21 @@
 package DAO;
 
 public class Employee {
+
+    private int id_employee;
     private String f_name;
     private String l_name;
     private String email;
+
+
+
+    public int getId_employee() {
+        return id_employee;
+    }
+
+    public void setId_employee(int id_employee) {
+        this.id_employee = id_employee;
+    }
 
     // Getter pour f_name
     public String getF_name() {

@@ -1,27 +1,29 @@
 package Servlets;
 
-
 import Beans.HumeurCalcul;
 import Beans.PauseCalcul;
-import DAO.Employee;
 import DAO.Humeur;
 import DAO.Pause;
-import DAO.employeeList;
+import DAO.Rapport;
+import Beans.RapportList;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "EmployeeServlet", value = "/Servlets.EmployeeServlet")
-//@WebServlet("/employees")
-public class EmployeeServlet extends HttpServlet {
+@WebServlet(name = "RapportServlet", value = {"/Servlets.RapportServlet"})
+
+public class RapportServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        employeeList employeeList = new employeeList();
-        List<Employee> employees = employeeList.getAllEmployees();
-        System.out.println("Number of employees: " + employees.size());
+        String employeeId = request.getParameter("id");
+        System.out.println("Employee ID: " + employeeId); // Ajoutez cette ligne
+        // Utilisez cet ID pour extraire les rapports de l'employé depuis la base de données
+        List<Rapport> rapports = RapportList.getRapportsByEmployeeId(Integer.parseInt(employeeId));
+        System.out.println("Number of reports: " + rapports.size());
+        // Transmettez la liste des rapports à une JSP pour l'affichage
 
         PauseCalcul pauseCalcul = new PauseCalcul();
 
@@ -65,10 +67,9 @@ public class EmployeeServlet extends HttpServlet {
 
 
 
-
-
-        // Transmettez la liste des employés à la JSP
-        request.setAttribute("employees", employees);
-        request.getRequestDispatcher("/JSP/dashboard1.jsp").forward(request, response);
+        request.setAttribute("rapports", rapports);
+        request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
     }
 }
+
+
