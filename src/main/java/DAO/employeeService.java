@@ -13,7 +13,7 @@ public class employeeService {
     public employeeService() { }
     public Connection driver() throws Exception {
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
 
    /* public ArrayList<Employee> GetEmployeeData() throws SQLException {
         driver();
