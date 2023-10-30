@@ -24,11 +24,11 @@
         <div class="name-field">
             <div>
                 <label> Heure d'entrée</label>
-                <input type="datetime-local" name="start_time">
+                <input type="time" name="start_time">
             </div>
             <div>
                 <label> Heure de sortie</label>
-                <input type="datetime-local" name="end_time">
+                <input type="time" name="end_time">
             </div>
         </div>
         <div class="form-check">
@@ -63,6 +63,8 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        background-image:url("/resources/images/image1.jpg");
+
 
     }
 

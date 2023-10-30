@@ -18,9 +18,7 @@ import javax.servlet.http.HttpSession;
 public class loginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        this.getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-
+        this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,10 +1,8 @@
 package DAO;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class workHoursService {
+
     Connection connexion = null;
     Statement statement = null;
     ResultSet resultat = null;
@@ -18,4 +16,7 @@ public class workHoursService {
             e.printStackTrace();
         }
     }
+
+
+
 }
