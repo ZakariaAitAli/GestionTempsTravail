@@ -20,6 +20,6 @@ public class test extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CronJobScriptEmail.sendEmail("nada19samadi09@gmail.com");
+
     }
 }
