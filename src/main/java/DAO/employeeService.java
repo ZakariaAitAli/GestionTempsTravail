@@ -10,6 +10,8 @@ public class employeeService {
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultat = null;
+    ResultSet generatedKeys = null;
+    int lastInsertedId = -1;
     public employeeService() { }
     public Connection driver() throws Exception {
         try{
@@ -56,11 +58,35 @@ public class employeeService {
             return false;
         }
 
-        public void insertTime(Date start_time, Date end_date, int pause) throws Exception {
+        public void insertTime(int id_employee,Time start_time, Time end_time, int[] pauses) throws Exception {
             if (conn == null){
                 conn = driver();
             }
+            statement=conn.prepareStatement("insert into time (id_employee,start_time, end_time) values (?,?,?,?)");
+            statement.setInt(1,id_employee);
+            statement.setTime(2,start_time);
+            statement.setTime(3,end_time);
+            statement.executeUpdate();
+
+            int rowsAffected = statement.executeUpdate();
+            generatedKeys = statement.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                lastInsertedId = generatedKeys.getInt(1);
+                statement= conn.prepareStatement("insert  into pauses (id_time,pause) values (?,?)");
+                for (int pause : pauses) {
+                    statement.setInt(1, lastInsertedId);
+                    statement.setInt(2, pause);
+                    statement.executeUpdate();
+                }
+
+
+
+            }
+
+
 
         }
+
     }
 
