@@ -4,10 +4,15 @@ package DAO;
 import DTO.EmployeeDTO;
 import Models.Employee;
 import Shared.Enums.PausesEnum;
+import com.itextpdf.layout.property.HorizontalAlignment;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.io.PrintWriter;
 import java.sql.*;
-import java.sql.Date;
+
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -64,22 +69,39 @@ public class employeeService {
             java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
             ArrayList<EmployeeDTO> data = new ArrayList<>() ;
 
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.*,p.pause FROM employees e INNER JOIN time t ON e.id_employee = t.id_employee INNER JOIN pauses p ON p.id_time = t.id where e.email =? AND t.date >=?");
+
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.* FROM employees e INNER JOIN time t ON e.id_employee = t.id_employee where e.email =? AND  t.date >= ?");
             preparedStatement.setString(1, email);
-            preparedStatement.setDate(2, sqlDate);
+           preparedStatement.setDate(2,sqlDate);
+
+
             ResultSet resultat = preparedStatement.executeQuery();
 
+       int  pause = 0 ;
             while (resultat.next()) {
-
+                 pause = 0 ;
                 String FullName = resultat.getString("f_name") + " " + resultat.getString("l_name");
                 Time startTime = resultat.getTime("start_time");
                 Time endTime = resultat.getTime("end_time");
-                int pause = PausesEnum.getHours(resultat.getInt("pause")) ;
+                Date date = resultat.getDate("date") ;
+                int idTime = resultat.getInt("id") ;
+
+                PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT pause FROM pauses WHERE id_time = ?");
+                preparedStatement2.setInt(1, idTime);
+                ResultSet res = preparedStatement2.executeQuery();
+                while (res.next()) {
+                     pause += PausesEnum.getHours(res.getInt("pause")) ;
+
+                }
+
+
+
+
                 long totalMillisecondsWorked = endTime.getTime() - startTime.getTime();
                 double totalMinutesWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
-              //  double MinutesWorkedAfterPause = totalMinutesWorked - pause;
-                double HoursWorkedAfterPause = (totalMinutesWorked - pause )/60 ;
-                double HoursSupp = (HoursWorkedAfterPause -7)>= 0 ? (HoursWorkedAfterPause -7) : 0 ;
+                double HoursWorked  = totalMinutesWorked /60;
+                double HoursWorkedAfterPause = (totalMinutesWorked - pause )/60;
+                double HoursSupp = (HoursWorked -8)>= 0 ? (HoursWorked -8) : 0; // 7 HOURS EACH DAY
 
                 data.add(new EmployeeDTO(HoursSupp,HoursWorkedAfterPause));
             }
@@ -97,13 +119,13 @@ public class employeeService {
             String email = resultat.getString("email");
             String FullName = resultat.getString("f_name") + " " + resultat.getString("l_name");
             int idEmployee= resultat.getInt("id_employee") ;
-            emails.add(email+"/"+email+"/"+idEmployee) ;
+            emails.add(email+"/"+FullName+"/"+idEmployee) ;
         }
         return emails ;
      }
 
      public HashMap<String , ArrayList<EmployeeDTO>> GetAll() throws Exception {
-         HashMap<String , ArrayList<EmployeeDTO>> data = new HashMap<>() ;
+        HashMap<String , ArrayList<EmployeeDTO>> data = new HashMap<>() ;
          ArrayList<String> emails = GetAllEmails() ;
 
          for (String item: emails) {

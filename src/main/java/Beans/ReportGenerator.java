@@ -104,7 +104,7 @@ public class ReportGenerator {
         document.add(new Paragraph(
                 "\r\n" + "Le Directeur de l'Ecole Nationale des Sciences Appliquées atteste que :  " + "\r\n")
                 .setFontSize(10F));
-        document.add(new Paragraph(data.get(0).firstName + "\r\n").setBold().setFontSize(10F));
+        document.add(new Paragraph( "\r\n").setBold().setFontSize(10F));
 
         document.add(new Paragraph("Numéro de la carte d’identité nationale :   " + "\r\n" + "\n"
                 + "Code national de l’étudiant :   " + " \r\n" + "\n" + "N°etudiant :   " +
