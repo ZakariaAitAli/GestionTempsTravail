@@ -22,9 +22,9 @@ public class workTimeServlet extends HttpServlet {
         String[] pauses = request.getParameterValues("pause");
         HttpSession session=request.getSession();
 
-        int id_employee = session.getAttribute();
-        employeeService emp = new employeeService();
-        emp.insertTime(id_employee, start_time, end_time, pauses);
+        //int id_employee = session.getAttribute();
+        //employeeService emp = new employeeService();
+        //emp.insertTime(id_employee, start_time, end_time, pauses);
 
     }
 }
