@@ -7,20 +7,21 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.border.SolidBorder;
+
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.color.Color;
+
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.border.Border;
-import com.itextpdf.layout.border.SolidBorder;
+
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -31,12 +32,12 @@ import javax.ejb.Timer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,12 +45,24 @@ public class ReportGenerator {
 
     public static void main(String[] args) {
         try {
-            ReportGenerator.generateReport();
+            ReportGenerator.CronJob();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public static void CronJob() throws  Exception {
+        HashMap<String, ArrayList<EmployeeDTO>> employeeData = fetchData();
+        Set<String> keys = employeeData.keySet();
+        for(String key : keys) {
+            String email = key.split("/")[0];
+            String fullName = key.split("/")[1];
+            String idEmployee = key.split("/")[2];
+
+            generateReport(email,fullName,idEmployee,employeeData.get(key));
+        }
+
+        }
     public static HashMap<String , ArrayList<EmployeeDTO>> fetchData() throws Exception {
 
         employeeService emp = new employeeService() ;
@@ -58,73 +71,55 @@ public class ReportGenerator {
 
     }
 
-    // @Schedule(dayOfWeek = "3", hour = "19", minute = "55", second = "0", persistent = false)
-    public static void generateReport() throws Exception {
 
-        HashMap<String , ArrayList<EmployeeDTO>> data = fetchData();
+    public static void generateReport(String email, String fullName, String idEmployee, ArrayList<EmployeeDTO> dayData) throws Exception {
 
-        String path = "\\mnt\\c\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\D" + ".pdf";
-        PdfWriter pdfWriter = new PdfWriter(path);
-        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        String filePath = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+  ".pdf";
+        File file = new File(filePath);
+        file.getParentFile().mkdirs();
+        PdfDocument pdfDocument = new PdfDocument(new PdfWriter(filePath));
         Document document = new Document(pdfDocument);
-        pdfDocument.setDefaultPageSize(PageSize.A4);
-        SolidBorder gb = new SolidBorder(Color.BLACK, 1f / 2f);
 
-        // Creating a table that contain 2 columns
-        float two_col150 = 300f;
-        float columnWidth[] = {two_col150};
+        // Add title
+        document.add(new Paragraph("Weekly Work Report").setTextAlignment(TextAlignment.CENTER));
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        float x = pdfDocument.getDefaultPageSize().getWidth() / 2;
-        float y = pdfDocument.getDefaultPageSize().getHeight() / 2;
+        document.add(new Paragraph("Full Name: " + fullName));
+        document.add(new Paragraph("Email: " + email));
+        document.add(new Paragraph("ID: " + idEmployee));
 
+        // Add daily work hours
+        Table workTable = new Table(4);
+        workTable.addCell("Date");
+        workTable.addCell("Work Hours");
+      //  workTable.addCell("Pauses");
+        workTable.addCell("Supplementary Hours");
 
-        float a = pdfDocument.getDefaultPageSize().getWidth() / 2;
-        float b = pdfDocument.getDefaultPageSize().getHeight() / 2;
+        for(EmployeeDTO data :  dayData  ) {
+            workTable.addCell(dateFormat.format(data.date));
+            workTable.addCell(String.valueOf(data.hoursWorkedAfterPause));
+            // workTable.addCell(String.valueOf(dayData.getPauses()));
+            workTable.addCell(String.valueOf(data.hoursSupp));
 
+        }
+        document.add(workTable);
 
-        float z = pdfDocument.getDefaultPageSize().getWidth() / 2;
-        float t = pdfDocument.getDefaultPageSize().getHeight() / 2;
+        // Add weekly summary
+        document.add(new Paragraph("Weekly Summary for Week Ending " + dateFormat.format(new Date())));
+        Table summaryTable = new Table(3);
+        summaryTable.addCell("Total Work Hours: "  );
+        summaryTable.addCell("Total Pauses: "  );
+        summaryTable.addCell("Total Supplementary Hours: " );
 
-
-        // HEADER OF THE DOC :
-        document.add(new Paragraph("ROYAUME DU MAROC \r\n" + "Université Abdelmalek Essaadi \r\n"
-                + "Ecole Nationale des Sciences \r\n" + "Appliquées \r\n" + "Tetouan \r\n"
-                + "Service des Affaires Estudiantines                \r\n \r\n").setFontSize(10F));
-
-
-        Table table = new Table(columnWidth);
-        table.setMarginLeft(100f);
-
-        table.addCell(new Cell().add(" " + "ATTESTATION DE REUSSITE ").setBold().setBorder(gb).setFontSize(20F)
-                .setPaddingLeft(10));
-        document.add(table);
-
-        // Writing the body on the document
-        document.add(new Paragraph(
-                "\r\n" + "Le Directeur de l'Ecole Nationale des Sciences Appliquées atteste que :  " + "\r\n")
-                .setFontSize(10F));
-        document.add(new Paragraph( "\r\n").setBold().setFontSize(10F));
-
-        document.add(new Paragraph("Numéro de la carte d’identité nationale :   " + "\r\n" + "\n"
-                + "Code national de l’étudiant :   " + " \r\n" + "\n" + "N°etudiant :   " +
-                "\r\n" + "\n" + "Né le :   " + "\r\n" + "\n"
-                + "A été déclare admis au : "
-                + "au titre de l'année universitaire 2020/2021 \r\n \n \n\n\n").setFontSize(10F));
-        document.add(new Paragraph("Fait à TETOUAN, le ").setPaddingLeft(300).setFontSize(10F));
-
-
-        Table table5 = new Table(1);
-        table5.addCell(
-                new Cell()
-                        .add(" \n \n \n \n \n \n \n \n \n Adresse : M'Hannech II \n "
-                                + "          B.P . 2222 Tétouan \n" + "      Tél: 0539968802 FAX : 05399994624\n")
-                        .setBorder(Border.NO_BORDER).setFontSize(10F));
-        document.add(table5);
-
-        // Closing the document
+        document.add(summaryTable);
         document.close();
+        }
 
 
-    }
+
 }
+
+

@@ -72,12 +72,11 @@ public class employeeService {
 
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.* FROM employees e INNER JOIN time t ON e.id_employee = t.id_employee where e.email =? AND  t.date >= ?");
             preparedStatement.setString(1, email);
-           preparedStatement.setDate(2,sqlDate);
+            preparedStatement.setDate(2,sqlDate);
 
 
-            ResultSet resultat = preparedStatement.executeQuery();
-
-       int  pause = 0 ;
+            ResultSet resultat = preparedStatement.executeQuery() ;
+            int  pause = 0 ;
             while (resultat.next()) {
                  pause = 0 ;
                 String FullName = resultat.getString("f_name") + " " + resultat.getString("l_name");
@@ -103,7 +102,7 @@ public class employeeService {
                 double HoursWorkedAfterPause = (totalMinutesWorked - pause )/60;
                 double HoursSupp = (HoursWorked -8)>= 0 ? (HoursWorked -8) : 0; // 7 HOURS EACH DAY
 
-                data.add(new EmployeeDTO(HoursSupp,HoursWorkedAfterPause));
+                data.add(new EmployeeDTO(HoursSupp,HoursWorkedAfterPause,date));
             }
         return data;
     }

@@ -19,7 +19,7 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            ReportGenerator.generateReport();
+            ReportGenerator.CronJob();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
