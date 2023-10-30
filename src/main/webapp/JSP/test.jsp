@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1><%= "Test!" %>
+
 </h1>
 <%
     String success =  (String)request.getParameter("success");
@@ -23,11 +24,7 @@
     <button type="submit" class="btn btn-primary mx-3">Generate report</button>
 </form>
 
-
-
-
 <a href="PdfDownloadServlet">Download pfg</a>
-
 <br/>
 
 </body>
