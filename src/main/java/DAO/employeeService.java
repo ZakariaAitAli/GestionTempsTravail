@@ -102,7 +102,7 @@ public class employeeService {
                 double HoursWorkedAfterPause = (totalMinutesWorked - pause )/60;
                 double HoursSupp = (HoursWorked -8)>= 0 ? (HoursWorked -8) : 0; // 7 HOURS EACH DAY
 
-                data.add(new EmployeeDTO(HoursSupp,HoursWorkedAfterPause,date));
+                data.add(new EmployeeDTO(HoursSupp,HoursWorkedAfterPause,date,pause));
             }
         return data;
     }

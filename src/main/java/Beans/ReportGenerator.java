@@ -77,6 +77,9 @@ public class ReportGenerator {
 
         String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+ ".pdf";
+        double totalWorkHours =0;
+        int totalBreakTime =0;
+        double suppHours =0 ;
         // Creating a path to the pdf
         String imagePath = "";
         PdfWriter pdfWriter = new PdfWriter(path);
@@ -107,51 +110,51 @@ public class ReportGenerator {
         // Creating a table object that have an array as a parameter
         // And adding a new cell to the array so i can write on it
 
-        Table table = new Table(columnWidth);
+       Table table = new Table(columnWidth);
         table.setMarginLeft(90f);
         table.addCell(new Cell().add("Report work hours").setBold().setBorder(gb).setFontSize(20F)
-                .setPaddingLeft(20));
+                .setPaddingLeft(60));
         document.add(table);
 
         // BODY OF THE DOC :
-        document.add(new Paragraph("\r\n" + fullName + "\r\n").setBold());
-        document.add(new Paragraph("Id de l'employe : " + idEmployee + "\n"
+        document.add(new Paragraph("\r\n Nom Complet : " + fullName + "\r\n"));
+        document.add(new Paragraph("CID : " + idEmployee + "\n"
 
-                +  "email :   " + email + " \r\n" + "\n").setFontSize(10F));
+                +  "Email :   " + email + " \r\n" + "\n").setFontSize(10F));
 
         Table table2 = new Table(4);
-        table2.addCell(new Cell().add(" " + "Date ").setFontSize(10F));
-        table2.addCell(new Cell().add(" " + "Work hours").setFontSize(10F));
-        table2.addCell(new Cell().add(" " + "Pauses").setFontSize(10F));
-        table2.addCell(new Cell().add(" " + "Supplementary hours").setFontSize(10F));
+        table2.addCell(new Cell().add(" " + "Date ").setFontSize(10F).setBold());
+        table2.addCell(new Cell().add(" " + "Work hours").setFontSize(10F).setBold());
+        table2.addCell(new Cell().add(" " + "Pauses").setFontSize(10F).setBold());
+        table2.addCell(new Cell().add(" " + "Supplementary hours").setFontSize(10F).setBold());
+
         for (EmployeeDTO data : dayData) {
             table2.addCell(new Cell().add(String.valueOf(data.date)).setFontSize(10F));
             table2.addCell(new Cell().add(String.valueOf(data.hoursWorkedAfterPause)).setFontSize(10F));
-            table2.addCell(new Cell().add("20").setFontSize(10F));
+            table2.addCell(new Cell().add(String.valueOf((data.pause))).setFontSize(10F));
             table2.addCell(new Cell().add(String.valueOf(data.hoursSupp)).setFontSize(10F));
+
+            totalWorkHours += data.hoursWorkedAfterPause;
+            totalBreakTime += data.pause;
+            suppHours += data.hoursSupp ;
         }
 
         document.add(table2);
 
 
-        document.add(new Paragraph("Weekly Summary for Week Ending  :        " + formattedDate))
-                .setFontSize(10F);
+
+
+        document.add(new Paragraph("\n \n \n \n Weekly Summary for Week Ending  :        " + formattedDate +"\n \n \n \n"))
+                .setFontSize(10F).setBold();
+
         Table summaryTable = new Table(3);
-        summaryTable.addCell("Total Work Hours: "  );
-        summaryTable.addCell("Total Pauses: "  );
-        summaryTable.addCell("Total Supplementary Hours: " );
+        summaryTable.addCell("Total Work Hours:  " +totalWorkHours );
+        summaryTable.addCell("Total Pauses:   "+totalBreakTime  );
+        summaryTable.addCell("Total Supplementary Hours:   " +suppHours);
         document.add(summaryTable);
 
-        // FOOTER OF THE DOC :
-        Table table3 = new Table(1);
-        table3.addCell(new Cell().add("\n \n \n  Fait à TETOUAN, le " ).setBorder(Border.NO_BORDER)
-                .setFontSize(10F).setPaddingLeft(10));
-        document.add(table3);
 
-        Table table4 = new Table(1);
-        table4.addCell(new Cell().add("Directeur de l'Ecole Nationale des Sciences Appliquées")
-                .setBorder(Border.NO_BORDER).setFontSize(10F));
-        document.add(table4);
+
 
 
         document.close();
