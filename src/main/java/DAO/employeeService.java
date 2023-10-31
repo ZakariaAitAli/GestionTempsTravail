@@ -1,8 +1,14 @@
 package DAO;
 
 
+import DTO.EmployeeDTO;
+import Models.Employee;
+
 import java.io.PrintWriter;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class employeeService {
     String email;
@@ -10,12 +16,10 @@ public class employeeService {
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultat = null;
-    ResultSet generatedKeys = null;
-    int lastInsertedId = -1;
     public employeeService() { }
     public Connection driver() throws Exception {
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
 
    /* public ArrayList<Employee> GetEmployeeData() throws SQLException {
         driver();
@@ -35,58 +39,34 @@ public class employeeService {
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt","root","");
         }catch(ClassNotFoundException ex ){
             throw new Exception("impossible de charger le driver");
-        }catch (SQLException e){
-            throw new Exception("erreur"+e.getMessage());
+        } catch (SQLException e) {
+            throw new Exception("erreur" + e.getMessage());
         }
     }
-    public  boolean login( String uemail, String upassword) throws Exception {
 
-        if (conn == null){
+    public boolean login(String uemail, String upassword) throws Exception {
+
+        if (conn == null) {
             conn = driver();
         }
 
-        statement=conn.prepareStatement("select * from employees where email=? and password=?");
-        statement.setString(1,uemail);
-        statement.setString(2,upassword);
+        statement = conn.prepareStatement("select * from employees where email=? and password=?");
+        statement.setString(1, uemail);
+        statement.setString(2, upassword);
         resultat = statement.executeQuery();
-        if(resultat.next()){
+        if (resultat.next()) {
             System.out.println(resultat.getString("id_employee"));
             // response.sendRedirect("Servlets.HomeServlet");
             return true;
-        }
-        else
+        } else
             return false;
-        }
+    }
 
-        public void insertTime(int id_employee,Time start_time, Time end_time, int[] pauses) throws Exception {
+        public void insertTime(Date start_time, Date end_date, int pause) throws Exception {
             if (conn == null){
                 conn = driver();
             }
-            statement=conn.prepareStatement("insert into time (id_employee,start_time, end_time) values (?,?,?,?)");
-            statement.setInt(1,id_employee);
-            statement.setTime(2,start_time);
-            statement.setTime(3,end_time);
-            statement.executeUpdate();
-
-            int rowsAffected = statement.executeUpdate();
-            generatedKeys = statement.getGeneratedKeys();
-
-            if (generatedKeys.next()) {
-                lastInsertedId = generatedKeys.getInt(1);
-                statement= conn.prepareStatement("insert  into pauses (id_time,pause) values (?,?)");
-                for (int pause : pauses) {
-                    statement.setInt(1, lastInsertedId);
-                    statement.setInt(2, pause);
-                    statement.executeUpdate();
-                }
-
-
-
-            }
-
-
 
         }
-
     }
 

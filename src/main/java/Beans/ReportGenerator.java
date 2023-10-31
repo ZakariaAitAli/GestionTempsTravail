@@ -58,7 +58,7 @@ public class ReportGenerator {
     public static void generateReport() throws MalformedURLException, FileNotFoundException {
 
         ArrayList<Employee> data = fetchData();
-        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\D" + ".pdf";
+        String path = "\\mnt\\c\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\D" + ".pdf";
         PdfWriter pdfWriter = new PdfWriter(path);
         PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         Document document = new Document(pdfDocument);
