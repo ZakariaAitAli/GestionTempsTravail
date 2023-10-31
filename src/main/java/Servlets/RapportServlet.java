@@ -3,31 +3,37 @@ package Servlets;
 import DAO.Environment.BreakTimeService;
 import DAO.Environment.MoodService;
 import DAO.Environment.EmployeeService;
+import DAO.Environment.ReportingService;
+import DTO.ReportingDTO;
 import Interfaces.Services.IBreakTimeService;
 import Interfaces.Services.IEmployeeService;
 import Interfaces.Services.IMoodService;
+import Interfaces.Services.IReportingService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 @WebServlet(name = "Servlets.RapportServlet", value = "/Servlets.RapportServlet")
 
 public class RapportServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String employeeId = request.getParameter("idEmployee");
-        IEmployeeService _employeeService = new EmployeeService();
-        IBreakTimeService _breakService = new BreakTimeService();
-        IMoodService _moodService = new MoodService();
 
+        IReportingService _reportingService = new ReportingService();
+        String id = request.getParameter("id");
+        try {
+           ArrayList<ReportingDTO> reports  = _reportingService.getReport(parseInt(id));
 
-        List<String> rapports = null;
+            request.setAttribute("rapports", reports);
+            request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
+        } catch (Exception e) {
 
-
-        request.setAttribute("rapports", rapports);
-        request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
+            }
 
     }
 }

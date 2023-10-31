@@ -126,12 +126,12 @@
                     </tr>
                     </thead>
                    <tbody>
-                                <c:forEach var="rapport" items="${rapports}">
+                                <c:forEach var="rapport" items="${reports}">
                                    <tr>
-                                   <td>${rapport.id_rapport}</td>
-                                   <td>${rapport.date_generation}</td>
-                                   <td>${rapport.worktime_total}</td>
-                                   <td><a href="${rapport.path}">Download</a></td>
+                                   <td>${rapport.Id}</td>
+                                   <td>${reports.date}</td>
+                                   <td></td>
+                                   <td><a href="">Download</a></td>
 
                                    </tr>
                                  </c:forEach>
