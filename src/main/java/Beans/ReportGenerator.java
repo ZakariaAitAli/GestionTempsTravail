@@ -1,6 +1,8 @@
 package Beans;
 import DAO.Environment.EmployeeService;
+import DAO.Environment.ReportingService;
 import DTO.EmployeeDTO;
+import Interfaces.Services.IReportingService;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -16,6 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 public class ReportGenerator {
 
     public static void main(String[] args) {
@@ -27,6 +31,7 @@ public class ReportGenerator {
     }
 
     public static void CronJob() throws  Exception {
+        IReportingService _reportingService = new ReportingService();
         HashMap<String, ArrayList<EmployeeDTO>> employeeData = fetchData();
         Set<String> keys = employeeData.keySet();
         for(String key : keys) {
@@ -34,7 +39,9 @@ public class ReportGenerator {
             String fullName = key.split("/")[1];
             String idEmployee = key.split("/")[2];
 
+            _reportingService.insertReport(parseInt(idEmployee));
             generateReport(email,fullName,idEmployee,employeeData.get(key));
+
         }
     }
     public static HashMap<String , ArrayList<EmployeeDTO>> fetchData() throws Exception {
@@ -47,12 +54,12 @@ public class ReportGenerator {
 
 
     public static void generateReport(String email, String fullName, String idEmployee, ArrayList<EmployeeDTO> dayData) throws Exception {
-
-        String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+formattedDate+ ".pdf";
         double totalWorkHours =0;
         int totalBreakTime =0;
         double suppHours =0 ;
+        String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+formattedDate+ ".pdf";
+
         // Creating a path to the pdf
         String imagePath = "";
         PdfWriter pdfWriter = new PdfWriter(path);
