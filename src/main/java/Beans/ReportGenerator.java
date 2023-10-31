@@ -2,8 +2,10 @@ package Beans;
 import DAO.employeeService;
 import DTO.EmployeeDTO;
 import Models.Employee;
+import com.google.protobuf.StringValue;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -16,10 +18,9 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 
-import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.border.SolidBorder;
+import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 
@@ -75,51 +76,90 @@ public class ReportGenerator {
     public static void generateReport(String email, String fullName, String idEmployee, ArrayList<EmployeeDTO> dayData) throws Exception {
 
         String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        String filePath = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+  ".pdf";
-        File file = new File(filePath);
-        file.getParentFile().mkdirs();
-        PdfDocument pdfDocument = new PdfDocument(new PdfWriter(filePath));
+        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+ ".pdf";
+        // Creating a path to the pdf
+        String imagePath = "";
+        PdfWriter pdfWriter = new PdfWriter(path);
+        PdfDocument pdfDocument = new PdfDocument(pdfWriter);
         Document document = new Document(pdfDocument);
+        pdfDocument.setDefaultPageSize(PageSize.A4);
 
-        // Add title
-        document.add(new Paragraph("Weekly Work Report").setTextAlignment(TextAlignment.CENTER));
+        // Creating a table that contain 2 columns
+        float two_col150 = 390f;
+        float columnWidth[] = { two_col150 };
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // CUSTOM BORDER :
+        SolidBorder gb = new SolidBorder(Color.BLACK, 1f / 2f);
 
-        document.add(new Paragraph("Full Name: " + fullName));
-        document.add(new Paragraph("Email: " + email));
-        document.add(new Paragraph("ID: " + idEmployee));
+        // IMAGE LOGO :
+       // ImageData imageData = ImageDataFactory.create(imagePath);
+        //Image image = new Image(imageData);
 
-        // Add daily work hours
-        Table workTable = new Table(4);
-        workTable.addCell("Date");
-        workTable.addCell("Work Hours");
-      //  workTable.addCell("Pauses");
-        workTable.addCell("Supplementary Hours");
+        float x = pdfDocument.getDefaultPageSize().getWidth() / 2;
+        float y = pdfDocument.getDefaultPageSize().getHeight() / 2;
 
-        for(EmployeeDTO data :  dayData  ) {
-            workTable.addCell(dateFormat.format(data.date));
-            workTable.addCell(String.valueOf(data.hoursWorkedAfterPause));
-            // workTable.addCell(String.valueOf(dayData.getPauses()));
-            workTable.addCell(String.valueOf(data.hoursSupp));
+        //image.setFixedPosition(x - 70, y + 280);
+        ///image.setHeight(112);
+        //document.add(image);
+        // HEADER OF THE DOC :
+        //document.add(new Paragraph("Report work hours").setFontSize(10F));
 
+        // Creating a table object that have an array as a parameter
+        // And adding a new cell to the array so i can write on it
+
+        Table table = new Table(columnWidth);
+        table.setMarginLeft(90f);
+        table.addCell(new Cell().add("Report work hours").setBold().setBorder(gb).setFontSize(20F)
+                .setPaddingLeft(20));
+        document.add(table);
+
+        // BODY OF THE DOC :
+        document.add(new Paragraph("\r\n" + fullName + "\r\n").setBold());
+        document.add(new Paragraph("Id de l'employe : " + idEmployee + "\n"
+
+                +  "email :   " + email + " \r\n" + "\n").setFontSize(10F));
+
+        Table table2 = new Table(4);
+        table2.addCell(new Cell().add(" " + "Date ").setFontSize(10F));
+        table2.addCell(new Cell().add(" " + "Work hours").setFontSize(10F));
+        table2.addCell(new Cell().add(" " + "Pauses").setFontSize(10F));
+        table2.addCell(new Cell().add(" " + "Supplementary hours").setFontSize(10F));
+        for (EmployeeDTO data : dayData) {
+            table2.addCell(new Cell().add(String.valueOf(data.date)).setFontSize(10F));
+            table2.addCell(new Cell().add(String.valueOf(data.hoursWorkedAfterPause)).setFontSize(10F));
+            table2.addCell(new Cell().add("20").setFontSize(10F));
+            table2.addCell(new Cell().add(String.valueOf(data.hoursSupp)).setFontSize(10F));
         }
-        document.add(workTable);
 
-        // Add weekly summary
-        document.add(new Paragraph("Weekly Summary for Week Ending " + dateFormat.format(new Date())));
+        document.add(table2);
+
+
+        document.add(new Paragraph("Weekly Summary for Week Ending  :        " + formattedDate))
+                .setFontSize(10F);
         Table summaryTable = new Table(3);
         summaryTable.addCell("Total Work Hours: "  );
         summaryTable.addCell("Total Pauses: "  );
         summaryTable.addCell("Total Supplementary Hours: " );
-
         document.add(summaryTable);
+
+        // FOOTER OF THE DOC :
+        Table table3 = new Table(1);
+        table3.addCell(new Cell().add("\n \n \n  Fait à TETOUAN, le " ).setBorder(Border.NO_BORDER)
+                .setFontSize(10F).setPaddingLeft(10));
+        document.add(table3);
+
+        Table table4 = new Table(1);
+        table4.addCell(new Cell().add("Directeur de l'Ecole Nationale des Sciences Appliquées")
+                .setBorder(Border.NO_BORDER).setFontSize(10F));
+        document.add(table4);
+
+
         document.close();
-        }
 
 
-
+    }
 }
+
+
 
 
