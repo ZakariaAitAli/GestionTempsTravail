@@ -25,25 +25,23 @@ public class loginServlet extends HttpServlet {
         String uemail=request.getParameter("email");
         String upassword=request.getParameter("password");
         HttpSession session=request.getSession();
+
+
         try {
             employeeService emp = new employeeService();
+            int idEmployee = emp.getId(uemail) ;
             if(emp.login(uemail,upassword)){
+
                 session.setAttribute("email",uemail);
-                System.out.println(uemail);
-               // response.sendRedirect("Servlets.HomeServlet");
-                 this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
-                System.out.println("registerok");
+                session.setAttribute("idEmployee", idEmployee);
+
+                this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
             }
             else{
-               // request.setAttribute("status","failed");
-                System.out.println("registerono");
                 this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             }
         }catch (Exception e){
-
-
             e.printStackTrace();
-
         }
     }
 }

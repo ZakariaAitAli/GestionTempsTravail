@@ -20,14 +20,15 @@ import java.time.ZoneId;
 import java.util.*;
 
 public class employeeService {
-    String email;
-    String password;
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultat = null;
-    public employeeService() { }
+
+    public employeeService() {
+    }
+
     public Connection driver() throws Exception {
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt", "root", "");
         } catch (ClassNotFoundException ex) {
@@ -38,32 +39,22 @@ public class employeeService {
     }
 
     public boolean login(String uemail, String upassword) throws Exception {
-
-        if (conn == null) {
-            conn = driver();
-        }
-
+        if (conn == null) {conn = driver();}
         statement = conn.prepareStatement("select * from employees where email=? and password=?");
         statement.setString(1, uemail);
         statement.setString(2, upassword);
         resultat = statement.executeQuery();
-        if (resultat.next()) {
-            System.out.println(resultat.getString("id_employee"));
-            // response.sendRedirect("Servlets.HomeServlet");
-            return true;
-        } else
-            return false;
+            if(resultat.next()) {
+                return true;
+            }
+        return false ;
     }
 
 
 
 
     public ArrayList<EmployeeDTO> GetEmployeeData(String email) throws Exception {
-
-        if (conn == null) {
-            conn = driver();
-        }
-
+        if (conn == null) {conn = driver();}
              //DATE CALC :
             LocalDateTime currentDateTime = LocalDateTime.now();
             java.util.Date javaUtilDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -95,7 +86,6 @@ public class employeeService {
                 ResultSet res = preparedStatement2.executeQuery();
                 while (res.next()) {
                      pause += PausesEnum.getHours(res.getInt("pause")) ;
-
                 }
                 long totalMillisecondsWorked = endTime.getTime() - startTime.getTime();
                 double totalMinutesWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
@@ -125,7 +115,7 @@ public class employeeService {
      }
 
      public HashMap<String , ArrayList<EmployeeDTO>> GetAll() throws Exception {
-        HashMap<String , ArrayList<EmployeeDTO>> data = new HashMap<>() ;
+         HashMap<String , ArrayList<EmployeeDTO>> data = new HashMap<>() ;
          ArrayList<String> emails = GetAllEmails() ;
 
          for (String item: emails) {
@@ -136,6 +126,17 @@ public class employeeService {
          return  data ;
      }
 
+    public int getId(String email)throws Exception {
+        conn = driver() ;
+        PreparedStatement preparedStatement = conn.prepareStatement("Select id_employee from employees WHERE email =? ;");
+        preparedStatement.setString(1, email);
+        ResultSet resultat = preparedStatement.executeQuery();
 
+        if (resultat.next()) {
+             int idEmployee = resultat.getInt("id_employee") ;
+             return idEmployee ;
+        }
+        return 0;
+    }
 }
 
