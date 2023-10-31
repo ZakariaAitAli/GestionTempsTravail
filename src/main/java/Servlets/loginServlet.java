@@ -1,6 +1,8 @@
 package Servlets;
 
+import DAO.Identity.AuthentificationService;
 import DAO.employeeService;
+import Interfaces.Services.IAuthentificationService;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -29,8 +31,9 @@ public class loginServlet extends HttpServlet {
 
         try {
             employeeService emp = new employeeService();
+            IAuthentificationService auth = new AuthentificationService();
             int idEmployee = emp.getId(uemail) ;
-            if(emp.login(uemail,upassword)){
+            if(auth.login(uemail,upassword)){
 
                 session.setAttribute("email",uemail);
                 session.setAttribute("idEmployee", idEmployee);

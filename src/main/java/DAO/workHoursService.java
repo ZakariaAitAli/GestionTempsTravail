@@ -1,7 +1,7 @@
 package DAO;
+import DAO.Shared.Driver;
 import DTO.WorkHoursDTO;
 import Interfaces.Services.IWorkHoursService;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -12,21 +12,11 @@ public class workHoursService implements IWorkHoursService {
     PreparedStatement statement = null;
     ResultSet resultat = null;
     public workHoursService() { }
-    public void driver() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt", "root", "");
-            System.out.println("Connexion reussite ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     public String insertTime(WorkHoursDTO object) throws Exception {
 
-        driver();
-        if (conn == null) {
-            driver();
-        }
+        if (conn == null) {conn = Driver.driver();}
+
         LocalDateTime currentDateTime = LocalDateTime.now();
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
@@ -54,9 +44,9 @@ public class workHoursService implements IWorkHoursService {
                     statement.setString(2, pause);
                     statement.executeUpdate();
                 }
-                return "Work ";
+                return "Success";
             }
-            return "Errorg";
+            return "Error";
         }
 
     }

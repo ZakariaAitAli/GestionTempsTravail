@@ -1,25 +1,16 @@
 package DAO;
-
-
+import DAO.Shared.Driver;
 import DTO.EmployeeDTO;
-import Models.Employee;
+import Interfaces.Services.IEmployeeService;
 import Shared.Enums.PausesEnum;
-import com.itextpdf.layout.property.HorizontalAlignment;
-
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
-import java.io.PrintWriter;
 import java.sql.*;
-
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
 
-public class employeeService {
+public class employeeService implements IEmployeeService {
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultat = null;
@@ -27,34 +18,8 @@ public class employeeService {
     public employeeService() {
     }
 
-    public Connection driver() throws Exception {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/gtt", "root", "");
-        } catch (ClassNotFoundException ex) {
-            throw new Exception("impossible de charger le driver");
-        } catch (SQLException e) {
-            throw new Exception("erreur" + e.getMessage());
-        }
-    }
-
-    public boolean login(String uemail, String upassword) throws Exception {
-        if (conn == null) {conn = driver();}
-        statement = conn.prepareStatement("select * from employees where email=? and password=?");
-        statement.setString(1, uemail);
-        statement.setString(2, upassword);
-        resultat = statement.executeQuery();
-            if(resultat.next()) {
-                return true;
-            }
-        return false ;
-    }
-
-
-
-
     public ArrayList<EmployeeDTO> GetEmployeeData(String email) throws Exception {
-        if (conn == null) {conn = driver();}
+        if (conn == null) {conn = Driver.driver();}
              //DATE CALC :
             LocalDateTime currentDateTime = LocalDateTime.now();
             java.util.Date javaUtilDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -99,7 +64,7 @@ public class employeeService {
     }
 
     public ArrayList<String> GetAllEmails() throws Exception {
-        conn  = driver();
+        if (conn == null) {conn = Driver.driver();}
         ArrayList<String> emails = new ArrayList<>() ;
 
         PreparedStatement preparedStatement = conn.prepareStatement("Select * from employees ;");
@@ -127,7 +92,7 @@ public class employeeService {
      }
 
     public int getId(String email)throws Exception {
-        conn = driver() ;
+        if (conn == null) {conn = Driver.driver();}
         PreparedStatement preparedStatement = conn.prepareStatement("Select id_employee from employees WHERE email =? ;");
         preparedStatement.setString(1, email);
         ResultSet resultat = preparedStatement.executeQuery();
