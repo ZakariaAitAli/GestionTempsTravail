@@ -1,7 +1,6 @@
 package Beans;
-import DAO.employeeService;
+import DAO.Environment.EmployeeService;
 
-import java.sql.*;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -31,7 +30,7 @@ public class CronJobScriptEmail {
     static final String SUBJECT = "Sujet : Votre Humeur est Important pour Nous !";
 
     public static void main(String[] args) throws Exception {
-             employeeService emp = new employeeService();
+             EmployeeService emp = new EmployeeService();
              ArrayList<String> emails = emp.GetAllEmails() ;
              for(String email :emails) {
                  sendEmail(email.split("/")[0]);

@@ -1,4 +1,4 @@
-package DAO;
+package DAO.Environment;
 import DAO.Shared.Driver;
 import DTO.EmployeeDTO;
 import Interfaces.Services.IEmployeeService;
@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-public class employeeService implements IEmployeeService {
+public class EmployeeService implements IEmployeeService {
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultat = null;
 
-    public employeeService() {
+    public EmployeeService() {
     }
 
     public ArrayList<EmployeeDTO> GetEmployeeData(String email) throws Exception {

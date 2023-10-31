@@ -1,7 +1,6 @@
 package Servlets;
 
-import DAO.employeeService;
-import DAO.workHoursService;
+import DAO.Environment.WorkHoursService;
 import DTO.WorkHoursDTO;
 import Interfaces.Services.IWorkHoursService;
 
@@ -31,7 +30,7 @@ public class workTimeServlet extends HttpServlet {
 
         //CALLING SERVICES
         WorkHoursDTO workHoursDTO = new WorkHoursDTO(id_employee,Time.valueOf(start_time),Time.valueOf(end_time),pauses) ;
-        IWorkHoursService _workHoursService = new workHoursService();
+        IWorkHoursService _workHoursService = new WorkHoursService();
         try { String message = _workHoursService.insertTime(workHoursDTO);} catch (Exception e) {throw new RuntimeException(e);}
 
 

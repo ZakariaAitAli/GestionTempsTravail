@@ -1,9 +1,8 @@
-package DAO;
+package DAO.Environment;
 
 import DAO.Shared.Driver;
 import Interfaces.Services.IBreakTimeService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

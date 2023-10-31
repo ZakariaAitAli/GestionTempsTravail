@@ -1,46 +1,20 @@
 package Beans;
-import DAO.employeeService;
+import DAO.Environment.EmployeeService;
 import DTO.EmployeeDTO;
-import Models.Employee;
-import com.google.protobuf.StringValue;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 
-import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.UnitValue;
-
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.Stateless;
-import javax.ejb.Timer;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import java.util.concurrent.TimeUnit;
 
 public class ReportGenerator {
 
@@ -62,11 +36,10 @@ public class ReportGenerator {
 
             generateReport(email,fullName,idEmployee,employeeData.get(key));
         }
-
-        }
+    }
     public static HashMap<String , ArrayList<EmployeeDTO>> fetchData() throws Exception {
 
-        employeeService emp = new employeeService() ;
+        EmployeeService emp = new EmployeeService() ;
         HashMap<String, ArrayList<EmployeeDTO>> data = emp.GetAll() ;
         return data;
 
@@ -76,7 +49,7 @@ public class ReportGenerator {
     public static void generateReport(String email, String fullName, String idEmployee, ArrayList<EmployeeDTO> dayData) throws Exception {
 
         String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+ ".pdf";
+        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+formattedDate+ ".pdf";
         double totalWorkHours =0;
         int totalBreakTime =0;
         double suppHours =0 ;

@@ -1,7 +1,9 @@
 package Servlets;
 
 
-import DAO.*;
+import DAO.Environment.BreakTimeService;
+import DAO.Environment.MoodService;
+import DAO.Environment.EmployeeService;
 import Interfaces.Services.IBreakTimeService;
 import Interfaces.Services.IEmployeeService;
 import Interfaces.Services.IMoodService;
@@ -17,7 +19,7 @@ import java.util.List;
 
 public class EmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        IEmployeeService _employeeService = new employeeService();
+        IEmployeeService _employeeService = new EmployeeService();
         IBreakTimeService _breakService = new BreakTimeService();
         IMoodService _moodService = new MoodService();
 

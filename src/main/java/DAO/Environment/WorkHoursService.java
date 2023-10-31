@@ -1,4 +1,4 @@
-package DAO;
+package DAO.Environment;
 import DAO.Shared.Driver;
 import DTO.WorkHoursDTO;
 import Interfaces.Services.IWorkHoursService;
@@ -6,12 +6,12 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class workHoursService implements IWorkHoursService {
+public class WorkHoursService implements IWorkHoursService {
 
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultat = null;
-    public workHoursService() { }
+    public WorkHoursService() { }
 
     public String insertTime(WorkHoursDTO object) throws Exception {
 
