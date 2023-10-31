@@ -97,10 +97,6 @@ public class employeeService {
                      pause += PausesEnum.getHours(res.getInt("pause")) ;
 
                 }
-
-
-
-
                 long totalMillisecondsWorked = endTime.getTime() - startTime.getTime();
                 double totalMinutesWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
                 double HoursWorked  = totalMinutesWorked /60;
@@ -116,7 +112,7 @@ public class employeeService {
         conn  = driver();
         ArrayList<String> emails = new ArrayList<>() ;
 
-        PreparedStatement preparedStatement = conn.prepareStatement("Select email,l_name,f_name,id_employee from employees ;");
+        PreparedStatement preparedStatement = conn.prepareStatement("Select * from employees ;");
         ResultSet resultat = preparedStatement.executeQuery();
 
         while (resultat.next()) {
@@ -139,5 +135,7 @@ public class employeeService {
          }
          return  data ;
      }
+
+
 }
 

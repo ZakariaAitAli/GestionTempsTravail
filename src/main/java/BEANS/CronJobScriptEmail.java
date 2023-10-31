@@ -1,14 +1,12 @@
-package BEANS;
+package Beans;
+import DAO.employeeService;
+
+import java.sql.*;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
 public class CronJobScriptEmail {
-
-    static final String DB_URL = "jdbc:mysql://localhost:3306/GTT";
-    static final String DB_USER = "root";
-    static final String DB_PASSWORD = "";
-
     static final String SENDER_EMAIL = "nada.samadi@etu.uae.ac.ma";
     static final String SENDER_PASSWORD = "ruos skjk fape leaf";
     static final String BODY = "Cher(e) Employé(e),\n" +
@@ -32,7 +30,13 @@ public class CronJobScriptEmail {
             "WorkTime Manager\n";
     static final String SUBJECT = "Sujet : Votre Humeur est Important pour Nous !";
 
-
+    public static void main(String[] args) throws Exception {
+             employeeService emp = new employeeService();
+             ArrayList<String> emails = emp.GetAllEmails() ;
+             for(String email :emails) {
+                 sendEmail(email);
+             }
+    }
 
     public static void sendEmail(String toEmail) {
         Properties props = new Properties();
