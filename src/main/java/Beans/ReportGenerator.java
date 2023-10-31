@@ -117,7 +117,7 @@ public class ReportGenerator {
         document.add(table);
 
         // BODY OF THE DOC :
-        document.add(new Paragraph("\r\n Nom Complet : " + fullName + "\r\n"));
+        document.add(new Paragraph("\r\n Nom Complet : " + fullName + "\n"));
         document.add(new Paragraph("CID : " + idEmployee + "\n"
 
                 +  "Email :   " + email + " \r\n" + "\n").setFontSize(10F));
@@ -129,10 +129,11 @@ public class ReportGenerator {
         table2.addCell(new Cell().add(" " + "Supplementary hours").setFontSize(10F).setBold());
 
         for (EmployeeDTO data : dayData) {
+
             table2.addCell(new Cell().add(String.valueOf(data.date)).setFontSize(10F));
-            table2.addCell(new Cell().add(String.valueOf(data.hoursWorkedAfterPause)).setFontSize(10F));
+            table2.addCell(new Cell().add(String.valueOf(data.hoursWorkedAfterPause).contains(".0")  ? String.valueOf((int) data.hoursWorkedAfterPause) : String.valueOf(data.hoursWorkedAfterPause)).setFontSize(10F));
             table2.addCell(new Cell().add(String.valueOf((data.pause))).setFontSize(10F));
-            table2.addCell(new Cell().add(String.valueOf(data.hoursSupp)).setFontSize(10F));
+            table2.addCell(new Cell().add(String.valueOf(data.hoursSupp).contains(".0") ? String.valueOf((int) data.hoursSupp): String.valueOf(data.hoursSupp)).setFontSize(10F));
 
             totalWorkHours += data.hoursWorkedAfterPause;
             totalBreakTime += data.pause;
@@ -144,8 +145,8 @@ public class ReportGenerator {
 
 
 
-        document.add(new Paragraph("\n \n \n \n Weekly Summary for Week Ending  :        " + formattedDate +"\n \n \n \n"))
-                .setFontSize(10F).setBold();
+        document.add(new Paragraph("\n \n \n \n Weekly Summary for Week Ending  :        " + formattedDate +"\n \n \n \n").setBold())
+                .setFontSize(10F);
 
         Table summaryTable = new Table(3);
         summaryTable.addCell("Total Work Hours:  " +totalWorkHours );

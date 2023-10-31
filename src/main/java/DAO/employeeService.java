@@ -7,6 +7,7 @@ import Shared.Enums.PausesEnum;
 import com.itextpdf.layout.property.HorizontalAlignment;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -63,16 +64,20 @@ public class employeeService {
             conn = driver();
         }
 
-
+             //DATE CALC :
             LocalDateTime currentDateTime = LocalDateTime.now();
             java.util.Date javaUtilDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
+            LocalDate localDate = sqlDate.toLocalDate();
+            LocalDate sevenDaysAgoLocal = localDate.minusDays(7);
+            java.sql.Date sevenDaysAgo= java.sql.Date.valueOf(sevenDaysAgoLocal);
+
             ArrayList<EmployeeDTO> data = new ArrayList<>() ;
 
-
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.* FROM employees e INNER JOIN time t ON e.id_employee = t.id_employee where e.email =? AND  t.date >= ?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.* FROM employees e INNER JOIN time t ON e.id_employee = t.id_employee where e.email =? AND  t.date <= ? AND t.date >=?");
             preparedStatement.setString(1, email);
             preparedStatement.setDate(2,sqlDate);
+            preparedStatement.setDate(3,sevenDaysAgo);
 
 
             ResultSet resultat = preparedStatement.executeQuery() ;
