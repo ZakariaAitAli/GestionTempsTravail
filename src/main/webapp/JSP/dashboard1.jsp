@@ -330,12 +330,12 @@
                 <tbody>
                 <c:forEach var="employee" items="${employees}">
                   <tr>
-                    <td>${employee.l_name}</td>
-                    <td>${employee.f_name}</td>
-                    <td>${employee.email}</td>
+                    <td>${employee.split("/")[1]}</td>
+                    <td>${employee.split("/")[1]}</td>
+                    <td>${employee.split("/")[0]}</td>
 
 
-                    <td><a href="${pageContext.request.contextPath}/Servlets.RapportServlet?id=${employee.id_employee}&nom=${employee.l_name}&prenom=${employee.f_name}">Voir les rapports</a></td>
+                    <td><a href="${pageContext.request.contextPath}/Servlets.RapportServlet?id=${employee.split("/")[2]}&nom=${employee.split("/")[1]}&prenom=${employee.split("/")[1]}">Voir les rapports</a></td>
 
                   </tr>
                 </c:forEach>

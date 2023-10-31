@@ -8,14 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\css\bootstrap.min.css.map" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.10/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://example.com/css/style.css"/>
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\css\dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\css\style.css" />
     <title> WorkTimeManager</title>
   </head>
   <body>
@@ -312,11 +309,11 @@
         </div>
       </div>
     </main>
-    <script src="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\js\bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
-    <script src="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\js\jquery-3.5.1.js"></script>
-    <script src="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\js\jquery.dataTables.min.js"></script>
-    <script src="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\js\dataTables.bootstrap5.min.js"></script>
-    <script src="C:\Users\Admin\Downloads\ProjetJEE\GestionTempsTravail\src\main\webapp\js\script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.10/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.10/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://example.com/js/script.js"></script>
   </body>
 </html>
