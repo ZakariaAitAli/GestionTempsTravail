@@ -1,11 +1,12 @@
 package Servlets;
 
-import Beans.HumeurCalcul;
-import Beans.PauseCalcul;
+import DAO.BreakTimeService;
 import DAO.Humeur;
-import DAO.Pause;
-import DAO.Rapport;
-import Beans.RapportList;
+import DAO.MoodService;
+import DAO.employeeService;
+import Interfaces.Services.IBreakTimeService;
+import Interfaces.Services.IEmployeeService;
+import Interfaces.Services.IMoodService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -13,47 +14,48 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "RapportServlet", value = {"/Servlets.RapportServlet"})
+@WebServlet(name = "Servlets.RapportServlet", value = "/Servlets.RapportServlet")
 
 public class RapportServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String employeeId = request.getParameter("id");
-        System.out.println("Employee ID: " + employeeId); // Ajoutez cette ligne
-        // Utilisez cet ID pour extraire les rapports de l'employé depuis la base de données
-        List<Rapport> rapports = RapportList.getRapportsByEmployeeId(Integer.parseInt(employeeId));
-        System.out.println("Number of reports: " + rapports.size());
-        // Transmettez la liste des rapports à une JSP pour l'affichage
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String employeeId = request.getParameter("idEmployee");
+        IEmployeeService _employeeService = new employeeService();
+        IBreakTimeService _breakService = new BreakTimeService();
+        IMoodService _moodService = new MoodService();
 
-        PauseCalcul pauseCalcul = new PauseCalcul();
 
-        List<Pause> pauses = pauseCalcul.getAllPauses();
+
+
+        List<String> rapports = null;
+
+
+
+        try {
+
+        List<Integer> pauses =_breakService.getAllPauses();
         int[] pauseCounts = new int[3];
+        List<Integer> humeurs = _moodService.getAllHumeurs();
+        int[] humeurCounts = new int[3];
 
-        for (Pause pause : pauses) {
-            if (pause.getPause() == 1) {
+        for (Integer pause : pauses) {
+            if (pause == 1) {
                 pauseCounts[0]++;
-            } else if (pause.getPause() == 2) {
+            } else if (pause == 2) {
                 pauseCounts[1]++;
-            } else if (pause.getPause() == 3) {
+            } else if (pause == 3) {
                 pauseCounts[2]++;
             }
         }
 
-        HumeurCalcul humeurCalcul = new HumeurCalcul();
-
-        List<Humeur> humeurs = humeurCalcul.getAllHumeurs();
-        int[] humeurCounts = new int[3];
-
-        for (Humeur humeur : humeurs) {
-            if (humeur.getHumeur() == 1) {
-                humeurCounts[0]++;
-            } else if (humeur.getHumeur() == 2) {
-                humeurCounts[1]++;
-            } else if (humeur.getHumeur() == 3) {
-                humeurCounts[2]++;
+            for (Integer humeur : humeurs) {
+                if (humeur == 1) {
+                    humeurCounts[0]++;
+                } else if (humeur == 2) {
+                    humeurCounts[1]++;
+                } else if (humeur == 3) {
+                    humeurCounts[2]++;
+                }
             }
-        }
 
         request.setAttribute("bonneCount", humeurCounts[0]);
         request.setAttribute("mauvaiseCount", humeurCounts[1]);
@@ -69,6 +71,9 @@ public class RapportServlet extends HttpServlet {
 
         request.setAttribute("rapports", rapports);
         request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

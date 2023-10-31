@@ -34,7 +34,7 @@ public class CronJobScriptEmail {
              employeeService emp = new employeeService();
              ArrayList<String> emails = emp.GetAllEmails() ;
              for(String email :emails) {
-                 sendEmail(email);
+                 sendEmail(email.split("/")[0]);
              }
     }
 

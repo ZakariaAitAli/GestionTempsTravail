@@ -9,7 +9,7 @@
     background-image: url("../resources/images/Mood.png");
 
 }
-.aligner {´
+.aligner {
 display: inline-block; }
 
 .btn{
