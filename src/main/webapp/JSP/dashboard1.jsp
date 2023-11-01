@@ -335,7 +335,7 @@
                     <td>${employee.split("/")[0]}</td>
 
 
-                    <td><a href="${pageContext.request.contextPath}/Servlets.RapportServlet?id=${employee.split("/")[2]}&fullName=${employee.split("/")[1]}}">Weekly Reports</a></td>
+                    <td><a href="${pageContext.request.contextPath}/Servlets.RapportServlet?id=${employee.split("/")[2]}&fullName=${employee.split("/")[1]}">Weekly Reports</a></td>
 
                   </tr>
                 </c:forEach>

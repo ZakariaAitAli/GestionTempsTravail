@@ -1,13 +1,7 @@
 package Servlets;
 
-import DAO.Environment.BreakTimeService;
-import DAO.Environment.MoodService;
-import DAO.Environment.EmployeeService;
 import DAO.Environment.ReportingService;
 import DTO.ReportingDTO;
-import Interfaces.Services.IBreakTimeService;
-import Interfaces.Services.IEmployeeService;
-import Interfaces.Services.IMoodService;
 import Interfaces.Services.IReportingService;
 
 import javax.servlet.*;
@@ -15,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -29,11 +22,11 @@ public class RapportServlet extends HttpServlet {
         try {
            ArrayList<ReportingDTO> reports  = _reportingService.getReport(parseInt(id));
 
-            request.setAttribute("rapports", reports);
+            request.setAttribute("reports", reports);
             request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
-            }
+        }
 
     }
 }

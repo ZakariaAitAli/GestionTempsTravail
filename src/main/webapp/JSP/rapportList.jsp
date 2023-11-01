@@ -1,5 +1,8 @@
+<%@ page import="DTO.ReportingDTO" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -126,15 +129,22 @@
                     </tr>
                     </thead>
                    <tbody>
-                                <c:forEach var="rapport" items="${reports}">
+                   <%
+                     ArrayList<ReportingDTO>  reports = (ArrayList<ReportingDTO>) request.getAttribute("reports");
+
+
+                   for(ReportingDTO report : reports) {
+                     %>
+
                                    <tr>
-                                   <td>${rapport.Id}</td>
-                                   <td>${reports.date}</td>
-                                   <td></td>
-                                   <td><a href="">Download</a></td>
+                                   <td><%=report.id%></td>
+                                   <td><%=report.ReportDate%></td>
+                                   <td>80</td>
+                                   <td><a href="PdfDownloadServlet?id=${param.id}">Download</a></td>
 
                                    </tr>
-                                 </c:forEach>
+                   <% }%>
+
                            </tbody>
                     </tfoot>
                   </table>

@@ -24,15 +24,13 @@ public class ReportingService implements IReportingService {
         statement.executeUpdate();
     }
     public ArrayList<ReportingDTO> getReport(int idEmployee) throws Exception {
-
+        if (conn == null) {conn = Driver.driver();}
         ArrayList<ReportingDTO> reportsData = new ArrayList<>() ;
-
-
-        statement = conn.prepareStatement("SELECT r.Date, r.Id FROM reports r INNER JOIN employee emp ON r.id_employee == emp.id_employee WHERE id_employee =?");
+        statement = conn.prepareStatement("SELECT r.Date, r.Id FROM reports r INNER JOIN employees emp ON r.id_employee = emp.id_employee WHERE r.id_employee =?");
         statement.setInt(1, idEmployee);
         resultat =   statement.executeQuery();
         while (resultat.next()) {
-            Date date = resultat.getDate("date") ;
+            Date date = resultat.getDate("Date") ;
             int Id = resultat.getInt("Id") ;
 
             reportsData.add(new ReportingDTO(Id,date)) ;
