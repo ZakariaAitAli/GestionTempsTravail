@@ -22,6 +22,7 @@ public class RapportServlet extends HttpServlet {
         try {
            ArrayList<ReportingDTO> reports  = _reportingService.getReport(parseInt(id));
 
+
             request.setAttribute("reports", reports);
             request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
         } catch (Exception ignored) {

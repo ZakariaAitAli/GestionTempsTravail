@@ -19,6 +19,7 @@ public class EmployeeService implements IEmployeeService {
     }
 
     public ArrayList<EmployeeDTO> GetEmployeeData(String email) throws Exception {
+        conn = Driver.driver();
         if (conn == null) {conn = Driver.driver();}
              //DATE CALC :
             LocalDateTime currentDateTime = LocalDateTime.now();
@@ -64,6 +65,8 @@ public class EmployeeService implements IEmployeeService {
     }
 
     public ArrayList<String> GetAllEmails() throws Exception {
+        conn =Driver.driver();
+
         if (conn == null) {conn = Driver.driver();}
         ArrayList<String> emails = new ArrayList<>() ;
 

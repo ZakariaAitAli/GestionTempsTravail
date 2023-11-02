@@ -54,10 +54,10 @@ display: inline-block; }
 <div class="aligner">
 <p class="container">
 <form action="Servlets.Mood" method="post">
-<button class="btn" type="submit" name="humeur" value="Heureux"> <i class="bi bi-emoji-smile-fill" ></i> Heureux</button>
-<button class="btn" type="submit" name="humeur" value="En colère"> <i class="bi bi-emoji-angry-fill"></i> En colère</button>
-<button class="btn" type="submit" name="humeur" value="Neutre"> <i class="bi bi-emoji-expressionless-fill"></i> Neutre</button>
-<button class="btn" type="submit" name="humeur" value="Triste"> <i class="bi bi-emoji-frown-fill"></i> Triste</button>
+<button class="btn" type="submit" name="humeur" value="1"> <i class="bi bi-emoji-smile-fill" ></i> Heureux</button>
+<button class="btn" type="submit" name="humeur" value="2"> <i class="bi bi-emoji-angry-fill"></i> En colère</button>
+<button class="btn" type="submit" name="humeur" value="3"> <i class="bi bi-emoji-expressionless-fill"></i> Neutre</button>
+<button class="btn" type="submit" name="humeur" value="4"> <i class="bi bi-emoji-frown-fill"></i> Triste</button>
 </form>
 </div>
 </center>
