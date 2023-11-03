@@ -20,9 +20,7 @@ public class RapportServlet extends HttpServlet {
         IReportingService _reportingService = new ReportingService();
         String id = request.getParameter("id");
         try {
-           ArrayList<ReportingDTO> reports  = _reportingService.getReport(parseInt(id));
-
-
+            ArrayList<ReportingDTO> reports  = _reportingService.getReport(parseInt(id));
             request.setAttribute("reports", reports);
             request.getRequestDispatcher("/JSP/rapportList.jsp").forward(request, response);
         } catch (Exception ignored) {
