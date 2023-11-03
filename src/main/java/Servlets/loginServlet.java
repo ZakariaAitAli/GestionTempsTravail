@@ -35,10 +35,13 @@ public class loginServlet extends HttpServlet {
                 session.setAttribute("email",uemail);
                 session.setAttribute("idEmployee", idEmployee);
 
-                this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
+               // this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
+                response.setStatus(HttpServletResponse.SC_OK);
+
             }
             else{
-                this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+               // this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             }
         }catch (Exception e){
             e.printStackTrace();
