@@ -32,15 +32,15 @@
             </div>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" name="pause[]" >
+            <input class="form-check-input" type="checkbox" value="1" name="pause" >
             <label class="form-check-label" > pause matinale 10h00 - 10h20</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="2"  name="pause[]" checked>
+            <input class="form-check-input" type="checkbox" value="2"  name="pause" checked>
             <label class="form-check-label" > pause déjeuner 13h00 - 14h00</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="3" name="pause[]" >
+            <input class="form-check-input" type="checkbox" value="3" name="pause" >
             <label class="form-check-label" > pause après-midi 16h00 - 16h15</label>
         </div>
         <input type="submit" class="btn btn-primary" value="Envoyer"/>

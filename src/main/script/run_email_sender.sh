@@ -2,9 +2,9 @@
 #!/bin/bash
 
 # Définissez le chemin du répertoire de votre application Java EE
-APP_DIR="/Users/mac/Desktop/GestionTempsTravail"
+APP_DIR="../../.."
 
-CLASS_NAME="BEANS.EmailSender"
+CLASS_NAME="Beans.CronJobScriptEmail"
 
 # Set the name of your method to be executed
 

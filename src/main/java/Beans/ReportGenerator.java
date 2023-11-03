@@ -1,47 +1,27 @@
 package Beans;
-import DAO.employeeService;
+import DAO.Environment.EmployeeService;
+import DAO.Environment.ReportingService;
 import DTO.EmployeeDTO;
-import Models.Employee;
-import com.google.protobuf.StringValue;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
+import Interfaces.Services.IReportingService;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.Document;
-
-import com.itextpdf.layout.border.Border;
+import java.text.DecimalFormat;
 import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.UnitValue;
-
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.Stateless;
-import javax.ejb.Timer;
-
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
+import com.itextpdf.kernel.color.DeviceRgb;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import java.util.concurrent.TimeUnit;
-
+import com.itextpdf.layout.property.TextAlignment;
+import static java.lang.Integer.parseInt;
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 public class ReportGenerator {
 
     public static void main(String[] args) {
@@ -53,6 +33,7 @@ public class ReportGenerator {
     }
 
     public static void CronJob() throws  Exception {
+        IReportingService _reportingService = new ReportingService();
         HashMap<String, ArrayList<EmployeeDTO>> employeeData = fetchData();
         Set<String> keys = employeeData.keySet();
         for(String key : keys) {
@@ -60,26 +41,27 @@ public class ReportGenerator {
             String fullName = key.split("/")[1];
             String idEmployee = key.split("/")[2];
 
+            _reportingService.insertReport(parseInt(idEmployee));
             generateReport(email,fullName,idEmployee,employeeData.get(key));
-        }
 
         }
+    }
     public static HashMap<String , ArrayList<EmployeeDTO>> fetchData() throws Exception {
 
-        employeeService emp = new employeeService() ;
+        EmployeeService emp = new EmployeeService() ;
         HashMap<String, ArrayList<EmployeeDTO>> data = emp.GetAll() ;
         return data;
 
     }
-
+    static DecimalFormat decimalFormat = new DecimalFormat("#.##"); // Format pour arrondir à deux chiffres après la virgule
 
     public static void generateReport(String email, String fullName, String idEmployee, ArrayList<EmployeeDTO> dayData) throws Exception {
-
+        double totalWorkHours = 0;
+        int totalBreakTime = 0;
+        double suppHours = 0;
         String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String path = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport" +idEmployee+ ".pdf";
-        double totalWorkHours =0;
-        int totalBreakTime =0;
-        double suppHours =0 ;
+        String path = "/Users/mac/Desktop/gestion_test_/GestionTempsTravail/src/main/java/Shared/Reports/WeeklyReport" + idEmployee + formattedDate + ".pdf";
+
         // Creating a path to the pdf
         String imagePath = "";
         PdfWriter pdfWriter = new PdfWriter(path);
@@ -87,83 +69,80 @@ public class ReportGenerator {
         Document document = new Document(pdfDocument);
         pdfDocument.setDefaultPageSize(PageSize.A4);
 
-        // Creating a table that contain 2 columns
-        float two_col150 = 390f;
-        float columnWidth[] = { two_col150 };
+        // Adding a professional header
+        Paragraph header = new Paragraph("Weekly Work Report")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setFontSize(24f)
+                .setBold();
 
-        // CUSTOM BORDER :
-        SolidBorder gb = new SolidBorder(Color.BLACK, 1f / 2f);
-
-        // IMAGE LOGO :
-       // ImageData imageData = ImageDataFactory.create(imagePath);
-        //Image image = new Image(imageData);
-
-        float x = pdfDocument.getDefaultPageSize().getWidth() / 2;
-        float y = pdfDocument.getDefaultPageSize().getHeight() / 2;
-
-        //image.setFixedPosition(x - 70, y + 280);
-        ///image.setHeight(112);
-        //document.add(image);
-        // HEADER OF THE DOC :
-        //document.add(new Paragraph("Report work hours").setFontSize(10F));
-
-        // Creating a table object that have an array as a parameter
-        // And adding a new cell to the array so i can write on it
-
-       Table table = new Table(columnWidth);
-        table.setMarginLeft(90f);
-        table.addCell(new Cell().add("Report work hours").setBold().setBorder(gb).setFontSize(20F)
-                .setPaddingLeft(60));
-        document.add(table);
+        document.add(header);
 
         // BODY OF THE DOC :
-        document.add(new Paragraph("\r\n Nom Complet : " + fullName + "\n"));
-        document.add(new Paragraph("CID : " + idEmployee + "\n"
+        document.add(new Paragraph("\n\nFull Name: " + fullName)
+                .setFontSize(12F));
+        document.add(new Paragraph("CID: " + idEmployee + "\nEmail: " + email)
+                .setFontSize(12F));
 
-                +  "Email :   " + email + " \r\n" + "\n").setFontSize(10F));
+        Table table = new Table(new float[]{2, 2, 2, 2});
+        table.setWidthPercent(100);
 
-        Table table2 = new Table(4);
-        table2.addCell(new Cell().add(" " + "Date ").setFontSize(10F).setBold());
-        table2.addCell(new Cell().add(" " + "Work hours").setFontSize(10F).setBold());
-        table2.addCell(new Cell().add(" " + "Pauses").setFontSize(10F).setBold());
-        table2.addCell(new Cell().add(" " + "Supplementary hours").setFontSize(10F).setBold());
+        // Adding table headers with background color
+        Cell dateHeader = new Cell().add("Date").setBold().setFontSize(12F);
+        Cell workHoursHeader = new Cell().add("Work Hours").setBold().setFontSize(12F);
+        Cell pausesHeader = new Cell().add("Pauses").setBold().setFontSize(12F);
+        Cell suppHoursHeader = new Cell().add("Supplementary Hours").setBold().setFontSize(12F);
 
+        Color headerColor = new DeviceRgb(0, 123, 255);
+        dateHeader.setBackgroundColor(headerColor);
+        workHoursHeader.setBackgroundColor(headerColor);
+        pausesHeader.setBackgroundColor(headerColor);
+        suppHoursHeader.setBackgroundColor(headerColor);
+
+        table.addHeaderCell(dateHeader);
+        table.addHeaderCell(workHoursHeader);
+        table.addHeaderCell(pausesHeader);
+        table.addHeaderCell(suppHoursHeader);
+
+        // Adding data rows to the table
         for (EmployeeDTO data : dayData) {
+            table.addCell(new Cell().add(String.valueOf(data.date)).setFontSize(10F));
+            double roundedHoursWorkedAfterPause = Math.round(data.hoursWorkedAfterPause * 100.0) / 100.0;
+            table.addCell(new Cell().add(decimalFormat.format(roundedHoursWorkedAfterPause)).setFontSize(10F));
+            double roundedPause = Math.round(data.pause * 100.0) / 100.0;
+            table.addCell(new Cell().add(decimalFormat.format(roundedPause)).setFontSize(10F));
+            double roundedHoursSupp = Math.round(data.hoursSupp * 100.0) / 100.0;
+            table.addCell(new Cell().add(decimalFormat.format(roundedHoursSupp)).setFontSize(10F));
 
-            table2.addCell(new Cell().add(String.valueOf(data.date)).setFontSize(10F));
-            table2.addCell(new Cell().add(String.valueOf(data.hoursWorkedAfterPause).contains(".0")  ? String.valueOf((int) data.hoursWorkedAfterPause) : String.valueOf(data.hoursWorkedAfterPause)).setFontSize(10F));
-            table2.addCell(new Cell().add(String.valueOf((data.pause))).setFontSize(10F));
-            table2.addCell(new Cell().add(String.valueOf(data.hoursSupp).contains(".0") ? String.valueOf((int) data.hoursSupp): String.valueOf(data.hoursSupp)).setFontSize(10F));
-
-            totalWorkHours += data.hoursWorkedAfterPause;
-            totalBreakTime += data.pause;
-            suppHours += data.hoursSupp ;
+            totalWorkHours += roundedHoursWorkedAfterPause;
+            totalBreakTime += roundedPause;
+            suppHours += roundedHoursSupp;
         }
 
-        document.add(table2);
+        document.add(table);
+
+        // Adding a summary section
+        Paragraph summary = new Paragraph()
+                .setFontSize(12F)
+                .add("\n\nWeekly Summary for Week Ending: " + formattedDate + "\n");
 
 
+        document.add(summary);
 
+        // Adding a table for the totals
+        Table totalsTable = new Table(new float[]{2, 2});
+        totalsTable.setWidthPercent(50);
+        totalsTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
 
-        document.add(new Paragraph("\n \n \n \n Weekly Summary for Week Ending  :        " + formattedDate +"\n \n \n \n").setBold())
-                .setFontSize(10F);
+        totalsTable.addCell(new Cell().add("Total Work Hours:").setBold().setFontSize(12F));
+        totalsTable.addCell(new Cell().add(String.valueOf(totalWorkHours)).setFontSize(12F));
+        totalsTable.addCell(new Cell().add("Total Pauses:").setBold().setFontSize(12F));
+        totalsTable.addCell(new Cell().add(String.valueOf(totalBreakTime)).setFontSize(12F));
+        totalsTable.addCell(new Cell().add("Total Supplementary Hours:").setBold().setFontSize(12F));
+        totalsTable.addCell(new Cell().add(String.valueOf(suppHours)).setFontSize(12F));
 
-        Table summaryTable = new Table(3);
-        summaryTable.addCell("Total Work Hours:  " +totalWorkHours );
-        summaryTable.addCell("Total Pauses:   "+totalBreakTime  );
-        summaryTable.addCell("Total Supplementary Hours:   " +suppHours);
-        document.add(summaryTable);
-
-
-
-
+        document.add(totalsTable);
 
         document.close();
-
-
     }
+
 }
-
-
-
-
