@@ -4,7 +4,7 @@ import DTO.WorkHoursDTO;
 
 public interface IWorkHoursService {
 
-    String insertTime(WorkHoursDTO object) throws Exception;
+    boolean insertTime(WorkHoursDTO object) throws Exception;
     boolean checkStartWork (int idEmployee) throws Exception;
     boolean checkEndWork (int idEmployee) throws Exception;
 

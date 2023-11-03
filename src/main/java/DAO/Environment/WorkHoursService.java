@@ -15,19 +15,19 @@ public class WorkHoursService implements IWorkHoursService {
     ResultSet resultat = null;
     public WorkHoursService() { }
 
-    public String insertTime(WorkHoursDTO object) throws Exception {
+    public boolean insertTime(WorkHoursDTO object) throws Exception {
 
         if (conn == null) {conn = Driver.driver();}
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
-        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT count(*) FROM time WHERE date = ? AND id_employee =?");
+        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT * FROM time WHERE date = ? AND id_employee =?");
         preparedStatement2.setDate(1, sqlDate);
-        preparedStatement2.setInt(1, object.idEmployee);
+        preparedStatement2.setInt(2, object.idEmployee);
         ResultSet resultat = preparedStatement2.executeQuery();
         if (resultat.next()) {
-            return "the work hours of the day has already been added.";
+            return false;
         } else {
             if(object.startTime != null) {
                 statement = conn.prepareStatement("INSERT INTO time(start_time,id_employee) VALUES(?,?)"); //Statement.RETURN_GENERATED_KEYS);
@@ -40,7 +40,7 @@ public class WorkHoursService implements IWorkHoursService {
                 statement.setInt(2, object.idEmployee);
                 statement.executeUpdate();
             }
-            return "error";
+            return true;
 
            /* ResultSet generatedKeys = statement.getGeneratedKeys();
 

@@ -22,9 +22,13 @@ public class Mood extends HttpServlet {
         try {
             int IdEmployee = parseInt(request.getParameter("id"));
             boolean IsSubmit = _moodService.CheckMood(IdEmployee) ;
-            if(IsSubmit) { }
-            else {
+            if(IsSubmit) {
+
                 RequestDispatcher rd = request.getRequestDispatcher("/JSP/Mood.jsp?error=1");
+                rd.forward(request, response);
+            }
+            else {
+                RequestDispatcher rd = request.getRequestDispatcher("/JSP/Mood.jsp?success=1");
                 rd.forward(request, response);
             }
 

@@ -3,8 +3,10 @@ package Servlets;
 import DAO.Identity.AuthentificationService;
 import DAO.Environment.EmployeeService;
 import Interfaces.Services.IAuthentificationService;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +38,16 @@ public class loginServlet extends HttpServlet {
                 session.setAttribute("idEmployee", idEmployee);
 
                // this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
+
                 response.setStatus(HttpServletResponse.SC_OK);
+                // Create a JSON object to include the idEmployee
+                JSONObject jsonResponse = new JSONObject();
+                jsonResponse.put("idEmployee", idEmployee);
+
+                // Write the JSON response to the output stream
+                PrintWriter out = response.getWriter();
+                out.print(jsonResponse.toString());
+                out.flush();
 
             }
             else{

@@ -10,6 +10,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.String.valueOf;
+
 public class BreakTimeService  implements IBreakTimeService {
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -42,8 +44,8 @@ public class BreakTimeService  implements IBreakTimeService {
         ResultSet resultat = preparedStatement2.executeQuery();
         if (resultat.next()) {
             stmt = conn.prepareStatement("INSERT INTO pauses(id_time,pause) VALUES(?,?)");
-            stmt.setInt(1, resultat.getInt("id_time"));
-            stmt.setInt(2, breakDTO.pause);
+            stmt.setInt(1, resultat.getInt("id"));
+            stmt.setString(2, String.valueOf(breakDTO.pause));
             stmt.executeUpdate();
         }
     }
