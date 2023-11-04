@@ -22,10 +22,16 @@ CREATE TABLE IF NOT EXISTS reports(
     PRIMARY KEY(Id), FOREIGN KEY(id_employee) REFERENCES employees(id_employee));
 
 -- Table structure for table time
-CREATE TABLE IF NOT EXISTS TIME(
+CREATE TABLE IF NOT EXISTS times(
     id INT(15) NOT NULL AUTO_INCREMENT,
     id_employee INT(15) NOT NULL,
-    DATE DATE, start_time TIME NOT NULL, end_time TIME NOT NULL, mood_form TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(id_employee) REFERENCES employees(id_employee));
+    DATE DATE, 
+    start_time TIME NOT NULL, 
+    end_time TIME NOT NULL, 
+    mood_form TINYINT(1) NOT NULL DEFAULT 0, 
+    PRIMARY KEY(id), 
+    FOREIGN KEY(id_employee) REFERENCES employees(id_employee)
+);
 
 -- Table structure for table pauses
 CREATE TABLE IF NOT EXISTS pauses(
@@ -33,7 +39,7 @@ CREATE TABLE IF NOT EXISTS pauses(
     id_time INT(11) NOT NULL,
     pause ENUM('1', '2', '3') DEFAULT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY(id_time) REFERENCES time(id)
+    FOREIGN KEY(id_time) REFERENCES times(id)
     );
 
 -- Table structure for table humeurs
@@ -58,7 +64,7 @@ VALUES ( '1'),
        ( '3');
 
 -- Insert data for table time
-INSERT INTO time ( id_employee, date, start_time, end_time, mood_form)
+INSERT INTO times ( id_employee, date, start_time, end_time, mood_form)
 VALUES ( 2, '2023-10-29', '09:00:00', '17:00:00', 0),
        ( 2, '2023-10-31', '09:00:00', '17:00:00', 0),
        ( 2, '2023-11-29', '09:00:00', '17:00:00', 0),
