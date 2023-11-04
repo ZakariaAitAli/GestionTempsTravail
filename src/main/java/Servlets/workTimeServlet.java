@@ -72,9 +72,11 @@ public class workTimeServlet extends HttpServlet {
                     //CALLING THE BREAKTIME SERVICE :
                     if (TimeOfBreak != null) {
                         int pause = PausesEnum.calculateValue(TimeOfBreak);
+                       // int pauseEnum = PausesEnum.getHours(pause) ;
                         BreakDTO breakDTO = new BreakDTO(id_employee, pause);
                         IBreakTimeService _breakTimeService = new BreakTimeService();
                         try {
+
                             _breakTimeService.insertBreakTime(breakDTO);
                         } catch (Exception e) {
                             throw new RuntimeException(e);

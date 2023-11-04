@@ -1,6 +1,7 @@
 package Beans;
 import DAO.Environment.EmployeeService;
 
+import java.time.LocalTime;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -10,18 +11,31 @@ import static java.lang.Integer.parseInt;
 public class CronJobScriptEmail {
     static final String SENDER_EMAIL = "nada.samadi@etu.uae.ac.ma";
     static final String SENDER_PASSWORD = "ruos skjk fape leaf";
-
-
     static final String SUBJECT = "Sujet : Votre Humeur est Important pour Nous !";
 
     public static void main(String[] args) throws Exception {
-             EmployeeService emp = new EmployeeService();
-              int idEmployee = 0 ;
-        ArrayList<String> emails = emp.GetAllEmails() ;
-             for(String email :emails) {;
-                 sendEmail(email.split("/")[0],parseInt(email.split("/")[2]));
+        try {
+            LocalTime currentTime = LocalTime.now();
+            int hour = currentTime.getHour();
 
-             }
+            if (hour >= 17 && hour < 18) {
+                CronJobScriptEmail.AllEmails();
+            } else {
+                ReportGenerator.CronJob();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AllEmails() throws Exception {
+        EmployeeService emp = new EmployeeService();
+        int idEmployee = 0;
+        ArrayList<String> emails = emp.GetAllEmails();
+        for (String email : emails) {
+            ;
+            sendEmail(email.split("/")[0], parseInt(email.split("/")[2]));
+        }
     }
 
     public static void sendEmail(String toEmail,int IdEmployee) {

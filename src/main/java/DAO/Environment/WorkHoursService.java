@@ -25,17 +25,35 @@ public class WorkHoursService implements IWorkHoursService {
 
         try {
             if(object.startTime != null) {
-                statement = conn.prepareStatement("INSERT INTO times (date, start_time,id_employee) VALUES(?,?,?)"); //Statement.RETURN_GENERATED_KEYS);
-                statement.setDate(1, sqlDate);
-                statement.setTime(2, object.startTime);
-                statement.setInt(3, object.idEmployee);
-                statement.executeUpdate();
-            }else if(object.endTime != null) {
-                statement = conn.prepareStatement("UPDATE times SET end_time =? where  id_employee=? AND date=?");
-                statement.setTime(1, object.endTime);
-                statement.setInt(2, object.idEmployee);
-                statement.setDate(3, sqlDate);
-                statement.executeUpdate();
+                if(!checkStartWork(object.idEmployee)) {
+                    statement = conn.prepareStatement("INSERT INTO times (date, start_time,id_employee) VALUES(?,?,?)"); //Statement.RETURN_GENERATED_KEYS);
+                    statement.setDate(1, sqlDate);
+                    statement.setTime(2, object.startTime);
+                    statement.setInt(3, object.idEmployee);
+                    statement.executeUpdate();
+                }else {
+                    statement = conn.prepareStatement("UPDATE times SET start_time =? where  id_employee=? AND date=?"); //Statement.RETURN_GENERATED_KEYS);
+                    statement.setDate(1, sqlDate);
+                    statement.setTime(2, object.startTime);
+                    statement.setInt(3, object.idEmployee);
+                    statement.executeUpdate();
+                }
+            }
+            if(object.endTime != null) {
+                if(!checkEndWork(object.idEmployee)) {
+                    statement = conn.prepareStatement("UPDATE times SET end_time =? where  id_employee=? AND date=?");
+                    statement.setTime(1, object.endTime);
+                    statement.setInt(2, object.idEmployee);
+                    statement.setDate(3, sqlDate);
+                    statement.executeUpdate();
+                }
+                /*else {
+                    statement = conn.prepareStatement("INSERT INTO times (date, end_time,id_employee) VALUES(?,?,?)"); //Statement.RETURN_GENERATED_KEYS);
+                    statement.setDate(1, sqlDate);
+                    statement.setTime(2, object.endTime);
+                    statement.setInt(3, object.idEmployee);
+                    statement.executeUpdate();
+                }*/
             }
         } catch(Exception e) {
             return  false ;

@@ -32,11 +32,11 @@ public class PausesEnum {
 
 
         if (time.after(startTime1) && time.before(endTime1)) {
-            return 20;
+            return 1;
         } else if (time.after(startTime2) && time.before(endTime2)) {
-            return 60;
+            return 2;
         } else {
-            return 15;
+            return 3;
         }
     }
 
