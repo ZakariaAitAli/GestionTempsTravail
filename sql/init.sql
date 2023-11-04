@@ -6,13 +6,12 @@ USE gtt;
 
 -- Table structure for table employees
 CREATE TABLE IF NOT EXISTS employees(
-    id_employee INT(10) NOT NULL AUTO_INCREMENT,
+    id_employee INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     f_name VARCHAR(30) NOT NULL,
     l_name VARCHAR(30) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(30) NOT NULL,
     user_role ENUM('0', '1'),
-    PRIMARY KEY(id_employee)
 );
 
 -- Table structure for table reports
