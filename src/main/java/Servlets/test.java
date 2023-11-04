@@ -1,22 +1,14 @@
 package Servlets;
 
-import DAO.employeeService;
+import DAO.Environment.EmployeeService;
 import DTO.EmployeeDTO;
-import org.json.JSONObject;
 
-import org.json.JSONObject;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -25,7 +17,7 @@ public class test extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       // this.getServletContext().getRequestDispatcher("/JSP/test.jsp").forward(request, response);
-       employeeService emp = new employeeService() ;
+       EmployeeService emp = new EmployeeService() ;
         try {
 
 
