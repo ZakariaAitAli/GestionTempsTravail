@@ -34,7 +34,7 @@ public class AuthentificationService  implements IAuthentificationService {
         statement.setString(2, upassword);
         resultat = statement.executeQuery();
         if (resultat.next()) {
-            int role = resultat.getInt("role");
+            int role = resultat.getInt("user_role");
             if (role == 1) {
                return true;
             }
