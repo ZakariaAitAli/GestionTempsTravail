@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS employees(
     l_name VARCHAR(30) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(30) NOT NULL,
+    user_role ENUM('0', '1'),
     PRIMARY KEY(id_employee)
 );
 
@@ -50,9 +51,9 @@ CREATE TABLE IF NOT EXISTS pauses(
     );
 
 -- Insert data for table employees
-INSERT INTO employees ( f_name, l_name, email, password)
-VALUES ( 'Oumayma', 'Yakoubi', 'ya.oumayma@gmail.com', '123456789'),
-       ( 'Mohamed Alhabib', 'Fatehi', 'mohamedfatehialhabib@gmail.com', '6341');
+INSERT INTO employees ( f_name, l_name, email, password, user_role)
+VALUES ( 'Oumayma', 'Yakoubi', 'ya.oumayma@gmail.com', '123456789', '0'),
+       ( 'Mohamed Alhabib', 'Fatehi', 'mohamedfatehialhabib@gmail.com', '6341', '1');
 
 -- Insert data for table humeurs
 INSERT INTO humeurs ( humeur)
