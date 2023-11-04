@@ -17,13 +17,15 @@ CREATE TABLE IF NOT EXISTS employees(
 -- Table structure for table reports
 CREATE TABLE IF NOT EXISTS reports(
     Id INT(11) NOT NULL AUTO_INCREMENT,
-    Date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(), id_employee INT(10) NOT NULL, PRIMARY KEY(Id), FOREIGN KEY(id_employee) REFERENCES employees(id_employee));
+    Date DATE , 
+    id_employee INT(10) NOT NULL, 
+    PRIMARY KEY(Id), FOREIGN KEY(id_employee) REFERENCES employees(id_employee));
 
 -- Table structure for table time
 CREATE TABLE IF NOT EXISTS TIME(
     id INT(15) NOT NULL AUTO_INCREMENT,
     id_employee INT(15) NOT NULL,
-    DATE DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(), start_time TIME NOT NULL, end_time TIME NOT NULL, mood_form TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(id_employee) REFERENCES employees(id_employee));
+    DATE DATE, start_time TIME NOT NULL, end_time TIME NOT NULL, mood_form TINYINT(1) NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(id_employee) REFERENCES employees(id_employee));
 
 -- Table structure for table pauses
 CREATE TABLE IF NOT EXISTS pauses(
