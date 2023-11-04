@@ -22,41 +22,24 @@ public class WorkHoursService implements IWorkHoursService {
         LocalDateTime currentDateTime = LocalDateTime.now();
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
-        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT * FROM time WHERE date = ? AND id_employee =?");
-        preparedStatement2.setDate(1, sqlDate);
-        preparedStatement2.setInt(2, object.idEmployee);
-        ResultSet resultat = preparedStatement2.executeQuery();
-        if (resultat.next()) {
-            return false;
-        } else {
+
+        try {
             if(object.startTime != null) {
                 statement = conn.prepareStatement("INSERT INTO time(start_time,id_employee) VALUES(?,?)"); //Statement.RETURN_GENERATED_KEYS);
                 statement.setTime(1, object.startTime);
                 statement.setInt(2, object.idEmployee);
                 statement.executeUpdate();
             }else if(object.endTime != null) {
-                statement = conn.prepareStatement("INSERT INTO time(end_time,id_employee) VALUES(?,?)");
+                statement = conn.prepareStatement("UPDATE time SET end_time =? where  id_employee=? AND date=?");
                 statement.setTime(1, object.endTime);
                 statement.setInt(2, object.idEmployee);
+                statement.setDate(3, sqlDate);
                 statement.executeUpdate();
             }
-            return true;
-
-           /* ResultSet generatedKeys = statement.getGeneratedKeys();
-
-            if (generatedKeys.next()) {
-                int lastInsertedId = generatedKeys.getInt(1);
-                String[] pauses = object.pause;
-                for (String pause : pauses) {
-                    statement = conn.prepareStatement("INSERT INTO pauses(id_time,pause) VALUES(?,?)");
-                    statement.setInt(1, lastInsertedId);
-                    statement.setString(2, pause);
-                    statement.executeUpdate();
-                }
-                return "Success";
-            }*/
+        } catch(Exception e) {
+            return  false ;
         }
-
+        return true;
     }
 
 
@@ -70,10 +53,10 @@ public class WorkHoursService implements IWorkHoursService {
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
 
-        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT count(*) FROM time WHERE date = ? and id_employee =?");
+        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT * FROM time WHERE date = ? and id_employee =?");
         preparedStatement2.setDate(1, sqlDate);
         preparedStatement2.setInt(2,idEmployee);
-        ResultSet resultat = preparedStatement2.executeQuery();
+         resultat = preparedStatement2.executeQuery();
         if(resultat.next()) {
             return true ;
         }

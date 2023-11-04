@@ -1,5 +1,7 @@
 package Shared.Enums;
 
+import java.sql.Time;
+
 public class PausesEnum {
 
     public static final int PAUSE_1 = 1;
@@ -21,5 +23,21 @@ public class PausesEnum {
         }
         return pause ;
    }
+    public static int calculateValue(Time time) {
+
+        Time startTime1 = Time.valueOf("09:00:00");
+        Time endTime1 = Time.valueOf("12:00:00");
+        Time startTime2 = Time.valueOf("12:00:00");
+        Time endTime2 = Time.valueOf("14:00:00");
+
+
+        if (time.after(startTime1) && time.before(endTime1)) {
+            return 20;
+        } else if (time.after(startTime2) && time.before(endTime2)) {
+            return 60;
+        } else {
+            return 15;
+        }
+    }
 
 }

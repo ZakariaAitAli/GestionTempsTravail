@@ -17,13 +17,13 @@ public class MoodService implements IMoodService {
 
     public List<Integer> getAllHumeurs() throws Exception {
         if(conn ==null) {conn = Driver.driver();}
-           List<Integer> humeurs = new ArrayList<>();
-            String query = "SELECT * FROM humeurs";
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                humeurs.add(resultSet.getInt("humeur"));
-            }
+        List<Integer> humeurs = new ArrayList<>();
+        String query = "SELECT * FROM humeurs";
+        PreparedStatement statement = conn.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            humeurs.add(resultSet.getInt("humeur"));
+        }
         return humeurs;
     }
 
@@ -40,7 +40,7 @@ public class MoodService implements IMoodService {
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
 
-        stmt = conn.prepareStatement("INSERT INTO time (mood_form) VALUES (?) WHERE id_employee =? AND date =?");
+        stmt = conn.prepareStatement("UPDATE  time SET mood_form = ? WHERE id_employee =? AND date =?");
         stmt.setBoolean(1, true);
         stmt.setInt(2, idEmployee);
         stmt.setDate(3,sqlDate);
