@@ -25,12 +25,13 @@ public class WorkHoursService implements IWorkHoursService {
 
         try {
             if(object.startTime != null) {
-                statement = conn.prepareStatement("INSERT INTO time(start_time,id_employee) VALUES(?,?)"); //Statement.RETURN_GENERATED_KEYS);
-                statement.setTime(1, object.startTime);
-                statement.setInt(2, object.idEmployee);
+                statement = conn.prepareStatement("INSERT INTO times (date, start_time,id_employee) VALUES(?,?,?)"); //Statement.RETURN_GENERATED_KEYS);
+                statement.setDate(1, sqlDate);
+                statement.setTime(2, object.startTime);
+                statement.setInt(3, object.idEmployee);
                 statement.executeUpdate();
             }else if(object.endTime != null) {
-                statement = conn.prepareStatement("UPDATE time SET end_time =? where  id_employee=? AND date=?");
+                statement = conn.prepareStatement("UPDATE times SET end_time =? where  id_employee=? AND date=?");
                 statement.setTime(1, object.endTime);
                 statement.setInt(2, object.idEmployee);
                 statement.setDate(3, sqlDate);
@@ -53,7 +54,7 @@ public class WorkHoursService implements IWorkHoursService {
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
 
-        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT * FROM time WHERE date = ? and id_employee =?");
+        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT * FROM times WHERE date = ? and id_employee =?");
         preparedStatement2.setDate(1, sqlDate);
         preparedStatement2.setInt(2,idEmployee);
          resultat = preparedStatement2.executeQuery();
@@ -71,7 +72,7 @@ public class WorkHoursService implements IWorkHoursService {
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
 
-        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT end_time FROM time WHERE date = ? and id_employee =? ");
+        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT end_time FROM times WHERE date = ? and id_employee =? ");
         preparedStatement2.setDate(1, sqlDate);
         preparedStatement2.setInt(2, idEmployee);
         ResultSet resultat = preparedStatement2.executeQuery();

@@ -31,7 +31,7 @@ public class EmployeeService implements IEmployeeService {
 
             ArrayList<EmployeeDTO> data = new ArrayList<>() ;
 
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.* FROM employees e INNER JOIN time t ON e.id_employee = t.id_employee where e.email =? AND  t.date <= ? AND t.date >=?");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT e.f_name, e.l_name,e.email,t.* FROM employees e INNER JOIN times t ON e.id_employee = t.id_employee where e.email =? AND  t.date <= ? AND t.date >=?");
             preparedStatement.setString(1, email);
             preparedStatement.setDate(2,sqlDate);
             preparedStatement.setDate(3,sevenDaysAgo);
