@@ -38,7 +38,7 @@ public class BreakTimeService  implements IBreakTimeService {
         LocalDateTime currentDateTime = LocalDateTime.now();
         java.util.Date javaUtilDate = java.util.Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
         java.sql.Date sqlDate = new java.sql.Date(javaUtilDate.getTime());
-        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT id FROM time WHERE date=? and id_employee = ?");
+        PreparedStatement preparedStatement2 = conn.prepareStatement("SELECT id FROM times WHERE date=? and id_employee = ?");
         preparedStatement2.setDate(1, sqlDate);
         preparedStatement2.setInt(2, breakDTO.idEmployee);
         ResultSet resultat = preparedStatement2.executeQuery();
