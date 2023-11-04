@@ -6,6 +6,7 @@ import Interfaces.Services.IAuthentificationService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AuthentificationService  implements IAuthentificationService {
     Connection conn = null;
@@ -21,6 +22,22 @@ public class AuthentificationService  implements IAuthentificationService {
         resultat = statement.executeQuery();
         if(resultat.next()) {
             return true;
+        }
+        return false ;
+    }
+
+    public boolean isAdmin(String uemail, String upassword) throws Exception {
+        if (conn == null) {conn = Driver.driver();}
+
+        statement = conn.prepareStatement("select * from employees where email=? and password=?");
+        statement.setString(1, uemail);
+        statement.setString(2, upassword);
+        resultat = statement.executeQuery();
+        if (resultat.next()) {
+            int role = resultat.getInt("role");
+            if (role == 1) {
+               return true;
+            }
         }
         return false ;
     }

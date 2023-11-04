@@ -3,10 +3,8 @@ package Servlets;
 import DAO.Identity.AuthentificationService;
 import DAO.Environment.EmployeeService;
 import Interfaces.Services.IAuthentificationService;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +17,7 @@ import javax.servlet.http.HttpSession;
 public class loginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
     }
     @Override
@@ -36,23 +35,29 @@ public class loginServlet extends HttpServlet {
 
                 session.setAttribute("email",uemail);
                 session.setAttribute("idEmployee", idEmployee);
+                if(auth.isAdmin(uemail,upassword)){
+                    this.getServletContext().getRequestDispatcher("/JSP/dashboard1.jsp").forward(request, response);
 
-               // this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
+                }
+                else {
+                    this.getServletContext().getRequestDispatcher("/JSP/home.jsp").forward(request, response);
 
-                response.setStatus(HttpServletResponse.SC_OK);
+                }
+
+                // response.setStatus(HttpServletResponse.SC_OK);
                 // Create a JSON object to include the idEmployee
-                JSONObject jsonResponse = new JSONObject();
-                jsonResponse.put("idEmployee", idEmployee);
+                // JSONObject jsonResponse = new JSONObject();
+                // jsonResponse.put("idEmployee", idEmployee);
 
                 // Write the JSON response to the output stream
-                PrintWriter out = response.getWriter();
-                out.print(jsonResponse.toString());
-                out.flush();
+                // PrintWriter out = response.getWriter();
+                // out.print(jsonResponse.toString());
+                // out.flush();
 
             }
             else{
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-               // this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+                // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             }
         }catch (Exception e){
             e.printStackTrace();

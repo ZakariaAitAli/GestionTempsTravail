@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: gtt
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - my-network
+
+  tomcat:
+    image: zakariaaitali/gestion_temps_travail:latest
+    ports:
+      - "8080:8080"
+    environment:
+      DATASOURCE_URL: jdbc:mysql://mysql:3306/gtt?useSSL=false&allowPublicKeyRetrieval=true
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
