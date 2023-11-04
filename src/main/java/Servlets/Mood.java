@@ -2,6 +2,7 @@ package Servlets;
 
 import DAO.Environment.MoodService;
 import Interfaces.Services.IMoodService;
+import com.google.gson.JsonObject;
 
 import javax.persistence.Id;
 import javax.servlet.*;
@@ -26,15 +27,19 @@ public class Mood extends HttpServlet {
 
         try {
             int IdEmployee = parseInt(request.getParameter("id"));
-            boolean IsSubmit = _moodService.CheckMood(IdEmployee) ;
-            if(IsSubmit || heureActuelle.isAfter(heureReference)) {
-                RequestDispatcher rd = request.getRequestDispatcher("/JSP/Mood.jsp?error=1");
-                rd.forward(request, response);
-            }
-            else {
-                RequestDispatcher rd = request.getRequestDispatcher("/JSP/Mood.jsp?success=1");
-                rd.forward(request, response);
-            }
+
+
+                boolean IsSubmit = _moodService.CheckMood(IdEmployee) ;
+
+                JsonObject json = new JsonObject();
+                json.addProperty("isSubmit", IsSubmit);
+                json.addProperty("isHours", heureActuelle.isAfter(heureReference));
+
+                response.setContentType("application/json");
+                PrintWriter out = response.getWriter();
+                out.print(json.toString());
+
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -54,6 +59,7 @@ public class Mood extends HttpServlet {
         try {
             _moodService.insertMood(mood);
             _moodService.MoodSubmited(IdEmployee);
+            response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

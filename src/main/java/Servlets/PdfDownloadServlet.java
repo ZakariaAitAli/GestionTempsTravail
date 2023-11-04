@@ -15,19 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import static java.lang.Integer.parseInt;
 
-@WebServlet(name = "Servlets.PdfDownloadServlet", value = "/PdfDownloadServlet")
+@WebServlet(name = "Servlets.PdfDownloadServlet", value = "/Servlets.PdfDownloadServlet")
 public class PdfDownloadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id =parseInt(request.getParameter("id"));
         String formattedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String filePath = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport"+id+formattedDate+".pdf";
+        String filePath = "C:\\Users\\Simofatt\\IdeaProjects\\GestionTempsTravail\\src\\main\\java\\Shared\\Reports\\WeeklyReport"+id+"2023-11-01.pdf";
 
         File file = new File(filePath);
         FileInputStream fis = new FileInputStream(file);
 
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=file.pdf");
+       // response.setHeader("Content-Disposition", "attachment; filename=file.pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=YourDesiredFileName.pdf");
+
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");

@@ -7,6 +7,8 @@ import DAO.Environment.EmployeeService;
 import Interfaces.Services.IBreakTimeService;
 import Interfaces.Services.IEmployeeService;
 import Interfaces.Services.IMoodService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -14,6 +16,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.PrintWriter;
 
 @WebServlet(name = "Servlets.EmployeeServlet", value = "/Servlets.EmployeeServlet")
 
@@ -50,7 +53,7 @@ public class EmployeeServlet extends HttpServlet {
                 }
             }
 
-            request.setAttribute("bonneCount", humeurCounts[0]);
+           /* request.setAttribute("bonneCount", humeurCounts[0]);
             request.setAttribute("mauvaiseCount", humeurCounts[1]);
             request.setAttribute("stableCount", humeurCounts[2]);
 
@@ -58,8 +61,27 @@ public class EmployeeServlet extends HttpServlet {
             request.setAttribute("apresMidiCount", pauseCounts[1]);
             request.setAttribute("dejeunerCount", pauseCounts[2]);
 
-            request.setAttribute("employees", employees);
-            request.getRequestDispatcher("/JSP/dashboard1.jsp").forward(request, response);
+            request.setAttribute("employees", employees);*/
+
+            JsonObject json = new JsonObject();
+            json.addProperty("bonneCount",humeurCounts[0] );
+            json.addProperty("mauvaiseCount", humeurCounts[1]);
+            json.addProperty("stableCount", humeurCounts[2]);
+            json.addProperty("matinaleCount", pauseCounts[0]);
+            json.addProperty("apresMidiCount",  pauseCounts[1]);
+            json.addProperty("dejeunerCount", pauseCounts[2]);
+            Gson gson = new Gson();
+
+
+            String employeesJson = gson.toJson(employees);
+
+            json.addProperty("employees", employeesJson);
+
+
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            out.print(json.toString());
+            //request.getRequestDispatcher("/JSP/dashboard1.jsp").forward(request, response);
 
         }catch (Exception e) {
             throw new RuntimeException(e);
