@@ -53,6 +53,7 @@ public class EmployeeService implements IEmployeeService {
                 while (res.next()) {
                      pause += PausesEnum.getHours(res.getInt("pause")) ;
                 }
+                if(endTime ==null) { endTime = Time.valueOf("17:00:00");}
                 long totalMillisecondsWorked = endTime.getTime() - startTime.getTime();
                 double totalMinutesWorked = totalMillisecondsWorked / (1000.0 * 60.0 );
                 double HoursWorked  = totalMinutesWorked /60;
