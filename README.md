@@ -20,3 +20,44 @@ Ce projet est une application web qui permet de gérer le temps de travail des e
 * [Git](https://git-scm.com/)
 * [Github](https://github.com/)
 * [Github Actions](https://docs.github.com/en/actions)
+
+### Installation
+#### Prérequis
+* [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+* [Git](https://git-scm.com/)
+* [Maven](https://maven.apache.org/)
+* [Java 21](https://www.oracle.com/java/technologies/javase-jdk21-downloads.html)
+* [NodeJS](https://nodejs.org/en/)
+* [NPM](https://www.npmjs.com/)
+* [NextJS](https://nextjs.org/)
+* [MySQL](https://www.mysql.com/fr/)
+* [MySQL Workbench](https://www.mysql.com/fr/products/workbench/)
+* [IntelliJ IDEA](https://www.jetbrains.com/fr-fr/idea/)
+
+#### Installation
+1. Cloner le projet
+```bash
+git clone
+```
+2. Lancer le serveur MySQL
+```bash
+docker-compose up -d
+```
+3. Créer la base de données
+```bash
+docker exec -i mysql mysql -uroot -psecret < ./database.sql
+```
+4. Lancer le serveur Java
+```bash
+mvn spring-boot:run
+```
+5. Lancer le serveur NextJS
+```bash
+npm run dev
+```
+6. Ouvrir l'application dans le navigateur
+```bash
+http://localhost:3000
+```
+
